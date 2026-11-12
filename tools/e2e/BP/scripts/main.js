@@ -184,11 +184,15 @@ async function run() {
   p.removeEffect("regeneration");
   const z = dim.spawnEntity("minecraft:zombie", { x: p.location.x + 2, y: p.location.y, z: p.location.z });
   const hp0 = s.hp.cur;
-  for (let i = 0; i < 12; i++) {
+  for (let i = 0; i < 40; i++) {
     try {
       z.teleport({ x: p.location.x + 1, y: p.location.y, z: p.location.z }, { facingLocation: p.location });
+      p.lookAtEntity(z);
+      if (i === 0) p.attackEntity(z); // provozieren
     } catch {}
     await wait(10);
+    const st = await state();
+    if (st.hp.cur < hp0) break;
   }
   s = await state();
   check("Spieler nimmt Monsterschaden, überlebt", s.hp.cur < hp0 && s.hp.cur > 0, `${hp0} → ${s.hp.cur}/${s.hp.max}`);
@@ -247,6 +251,20 @@ async function run() {
   const door = dim.getBlock({ x: d.x, y: d.y - 14 + 1, z: d.z - 33 });
   check("Tür (Barriere) vorhanden", door?.typeId === "cdw:barriere", door?.typeId);
 
+  // Begehbarkeit: geradeaus von der Oberfläche die Treppe hinab bis in Raum 1 laufen
+  p.teleport({ x: d.x + 0.5, y: d.y + 1, z: d.z + 3.5 }, { facingLocation: { x: d.x + 0.5, y: d.y, z: d.z - 10 } });
+  await wait(20);
+  try {
+    p.moveToLocation({ x: d.x + 0.5, y: d.y - 14, z: d.z - 26.5 }, { faceTarget: true, speed: 1 });
+    for (let i = 0; i < 40; i++) {
+      await wait(10);
+      if (Math.abs(p.location.y - (d.y - 14)) < 1.5 && p.location.z < d.z - 19) break;
+    }
+    p.stopMoving();
+    check("Spieler läuft die Treppe hinab bis in Raum 1", Math.abs(p.location.y - (d.y - 14)) < 2 && p.location.z < d.z - 17, `pos=${Math.round(p.location.x - d.x)},${Math.round(p.location.y - d.y)},${Math.round(p.location.z - d.z)} (relativ)`);
+  } catch (e) {
+    check("Spieler läuft die Treppe hinab bis in Raum 1", false, String(e));
+  }
   // Raum 1
   const roomCenter = (z0) => ({ x: d.x + 0.5, y: d.y - 14 + 0.1, z: d.z + z0 + 0.5 });
   async function clearWaveRoom(idx, z0) {

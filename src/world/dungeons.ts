@@ -135,10 +135,10 @@ function layout(def: DungeonDef): RoomLayout[] {
     return rooms;
   }
   return [
-    { kind: "wave", min: { x: -7, y: D, z: -32 }, max: { x: 7, y: D + 7, z: -18 }, door: { min: { x: -1, y: D + 1, z: -33 }, max: { x: 1, y: D + 4, z: -33 } } },
-    { kind: "puzzle", min: { x: -7, y: D, z: -52 }, max: { x: 7, y: D + 7, z: -38 }, door: { min: { x: -1, y: D + 1, z: -53 }, max: { x: 1, y: D + 4, z: -53 } } },
-    { kind: "wave", min: { x: -7, y: D, z: -72 }, max: { x: 7, y: D + 7, z: -58 }, door: { min: { x: -1, y: D + 1, z: -73 }, max: { x: 1, y: D + 4, z: -73 } } },
-    { kind: "boss", min: { x: -12, y: D, z: -102 }, max: { x: 12, y: D + 12, z: -78 }, door: { min: { x: -1, y: D + 1, z: -103 }, max: { x: 1, y: D + 4, z: -103 } } },
+    { kind: "wave", min: { x: -7, y: D, z: -32 }, max: { x: 7, y: D + 7, z: -18 }, door: { min: { x: -2, y: D, z: -33 }, max: { x: 2, y: D + 4, z: -33 } } },
+    { kind: "puzzle", min: { x: -7, y: D, z: -52 }, max: { x: 7, y: D + 7, z: -38 }, door: { min: { x: -2, y: D, z: -53 }, max: { x: 2, y: D + 4, z: -53 } } },
+    { kind: "wave", min: { x: -7, y: D, z: -72 }, max: { x: 7, y: D + 7, z: -58 }, door: { min: { x: -2, y: D, z: -73 }, max: { x: 2, y: D + 4, z: -73 } } },
+    { kind: "boss", min: { x: -12, y: D, z: -102 }, max: { x: 12, y: D + 12, z: -78 }, door: { min: { x: -2, y: D, z: -103 }, max: { x: 2, y: D + 4, z: -103 } } },
     { kind: "heart", min: { x: -4, y: D, z: -114 }, max: { x: 4, y: D + 6, z: -106 }, door: { min: { x: 0, y: 0, z: 0 }, max: { x: 0, y: 0, z: 0 } } },
   ];
 }
@@ -195,11 +195,11 @@ function buildDungeon(def: DungeonDef, st: DungeonState): void {
   buildDungeonImpl(def, st, () => undefined, false);
 }
 
-export function testBuildDungeon(id: string, at: { x: number; z: number }): Promise<void> {
+export function testBuildDungeon(id: string, at: { x: number; z: number }): Promise<DungeonState> {
   const def = dungeonDef(id);
   if (!def) return Promise.reject(new Error("unbekannt"));
   const st: DungeonState = { x: at.x, y: 64, z: at.z, built: false, stage: 0, boss: false, heart: false, rerolls: 0 };
-  return new Promise<void>((res) => buildDungeonImpl(def, st, res, true));
+  return new Promise<DungeonState>((res) => buildDungeonImpl(def, st, () => res(st), true));
 }
 
 function buildDungeonImpl(def: DungeonDef, st: DungeonState, done: () => void, test: boolean): void {
@@ -253,7 +253,13 @@ function buildDungeonImpl(def: DungeonDef, st: DungeonState, done: () => void, t
 
 function buildUnderground(b: Builder, def: DungeonDef, water: boolean): void {
   const t = def.theme;
-  // Oberfläche: Ruine + Plattform
+  const rooms = layout(def);
+  // 1) Räume zuerst (ihre Wände dürfen später von Gängen durchbrochen werden)
+  rooms.forEach((r) => {
+    if (r.kind === "boss") arena(b, t, r);
+    else chamber(b, t, r);
+  });
+  // 2) Oberfläche: Ruine + Plattform
   if (water) b.box(-7, -3, -7, 7, 0, 9, t.surface);
   b.box(-6, 0, -6, 6, 0, 8, t.surface);
   b.box(-6, 1, -6, 6, 8, 8, "minecraft:air");
@@ -274,24 +280,26 @@ function buildUnderground(b: Builder, def: DungeonDef, water: boolean): void {
     b.box(-15, 5, 2, -7, 5, 10, "minecraft:mangrove_roots");
     b.set(-12, 1, 4, "minecraft:cauldron").set(-13, 1, 8, "minecraft:brewing_stand").set(-10, 3, 6, { id: "minecraft:lantern", states: { hanging: false } });
   }
-  // Treppe nach unten (Norden)
+  // 3) Treppe nach unten (Norden) bis in den ersten Raum
+  const first = rooms[0];
+  const wallZ = first.max.z + 1; // Südwand des ersten Raums
   for (let i = 0; i <= -D; i++) {
     const z = -6 - i;
-    b.box(-3, -i - 1, z, 3, -i + 5, z, t.wall);
-    b.box(-2, -i, z, 2, -i + 4, z, "minecraft:air");
-    b.box(-2, -i - 1, z, 2, -i - 1, z, t.floor);
-    if (i % 4 === 2) b.set(-3, -i + 2, z, t.light).set(3, -i + 2, z, t.light);
+    const yTop = -i;
+    if (z >= wallZ) {
+      b.box(-3, yTop - 1, z, 3, yTop + 5, z, t.wall);
+      b.box(-2, yTop, z, 2, yTop + 4, z, "minecraft:air");
+      b.box(-2, yTop - 1, z, 2, yTop - 1, z, t.floor);
+      if (i % 4 === 2) b.set(-3, yTop + 2, z, t.light).set(3, yTop + 2, z, t.light);
+      if (z === wallZ) b.box(-2, first.min.y, z, 2, yTop + 4, z, "minecraft:air");
+    } else if (yTop - 1 >= first.min.y) {
+      b.box(-2, yTop - 1, z, 2, yTop - 1, z, t.floor); // Stufen im Raum
+    }
   }
-  // Gang zum ersten Raum
-  corridor(b, t, -6 + D, -18);
-  const rooms = layout(def);
+  // 4) Gänge zwischen den Räumen (durch beide Wände) und Türen
   rooms.forEach((r, i) => {
-    if (r.kind === "boss") arena(b, t, r);
-    else chamber(b, t, r);
-    // Gang zum nächsten Raum
     const next = rooms[i + 1];
     if (next) corridor(b, t, r.min.z - 1, next.max.z + 1);
-    // Ausgangstür (Barriere)
     if (r.kind !== "heart") b.box(r.door.min.x, r.door.min.y, r.door.min.z, r.door.max.x, r.door.max.y, r.door.max.z, "cdw:barriere");
     roomDecor(b, def, r, i);
   });
@@ -309,19 +317,22 @@ function buildTower(b: Builder, def: DungeonDef, water: boolean): void {
   b.box(-9, 1, -18, 9, 1 + rooms.length * 9 + 1, 0, "minecraft:air");
   // Eingang
   b.box(-1, 1, 1, 1, 4, 1, "minecraft:air");
+  // 1) Alle Böden zuerst
   rooms.forEach((r, i) => {
     const y = r.min.y;
     if (i > 0) b.box(-9, y - 1, -18, 9, y - 1, 0, t.floor);
     else b.box(-9, 0, -18, 9, 0, 0, t.floor);
-    // Treppe zur nächsten Etage (an der Südseite, durch Barriere versperrt)
+  });
+  // 2) Treppen, Öffnungen, Barrieren, Deko
+  rooms.forEach((r, i) => {
+    const y = r.min.y;
     if (i < rooms.length - 1) {
-      for (let s = 0; s < 8; s++) b.box(-1, y + s, -1 - s, 1, y + s, -1 - s, t.accent);
+      for (let s2 = 0; s2 < 8; s2++) b.box(-1, y + s2, -1 - s2, 1, y + s2, -1 - s2, t.accent);
       b.box(-1, y + 8, -10, 1, y + 8, -2, "minecraft:air");
       b.box(r.door.min.x, r.door.min.y, -10, r.door.max.x, r.door.max.y, -2, "cdw:barriere");
     }
     for (const [x, z] of [[-8, -17], [8, -17], [-8, -1], [8, -1]]) b.box(x, y, z, x, y + 7, z, t.pillar);
     b.set(-9, y + 4, -9, t.light).set(9, y + 4, -9, t.light);
-    // Fenster
     b.box(-10, y + 3, -12, -10, y + 5, -6, "minecraft:air").box(10, y + 3, -12, 10, y + 5, -6, "minecraft:air");
     roomDecor(b, def, r, i);
   });
@@ -338,7 +349,7 @@ function corridor(b: Builder, t: Theme, zStart: number, zEnd: number): void {
   b.box(-3, D - 1, c, 3, D + 5, a, t.wall);
   b.box(-2, D, c, 2, D + 4, a, "minecraft:air");
   b.box(-2, D - 1, c, 2, D - 1, a, t.floor);
-  for (let z = a; z >= c; z -= 5) b.set(-2, D + 3, z, t.light);
+  for (let z = a; z >= c; z -= 5) b.set(-3, D + 3, z, t.light);
 }
 
 function chamber(b: Builder, t: Theme, r: RoomLayout): void {
@@ -359,7 +370,7 @@ function arena(b: Builder, t: Theme, r: RoomLayout): void {
   b.disc(cx, r.min.y - 1, cz, rad, t.floor);
   b.disc(cx, r.max.y + 1, cz, rad, t.ceil);
   for (let i = 0; i < 8; i++) {
-    const a = (i / 8) * Math.PI * 2;
+    const a = (i / 8) * Math.PI * 2 + Math.PI / 8;
     const x = Math.round(cx + Math.cos(a) * (rad - 1.5));
     const z = Math.round(cz + Math.sin(a) * (rad - 1.5));
     b.box(x, r.min.y, z, x, r.max.y, z, t.pillar);

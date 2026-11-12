@@ -5,8 +5,9 @@ import { emit } from "./core/bus";
 import { markWorldDirty, pdata, wdata } from "./core/store";
 import { log } from "./core/util";
 import { setClass } from "./ui/classpick";
-import { plantHub } from "./world/hub";
-import { ensureLocation } from "./world/dungeons";
+import { buildHub, plantHub, upgradeHub } from "./world/hub";
+import { surfaceY } from "./world/builder";
+import { ensureLocation, testBuildDungeon } from "./world/dungeons";
 import { getMana, hpInfo, stats } from "./systems/stats";
 import { MAIN } from "./data/quests";
 import { getInfo, mobHp } from "./systems/mobs";
@@ -47,6 +48,60 @@ export function initDebug(): void {
         case "cast":
           if (p) castRune(p, args[1]);
           break;
+        case "scan": {
+          // scan x1 y1 z1 x2 y2 z2 – Blöcke ins Log (für Vorschaubilder)
+          const [x1, y1, z1, x2, y2, z2] = args.map(Number);
+          const dim = world.getDimension("minecraft:overworld");
+          const pal: string[] = [];
+          const out: number[] = [];
+          void world.tickingAreaManager.createTickingArea("cdw_scan", { dimension: dim, from: { x: x1, y: 0, z: z1 }, to: { x: x2, y: 0, z: z2 } }).then(() => system.runJob(
+            (function* () {
+              let n = 0;
+              for (let y = y1; y <= y2; y++)
+                for (let x = x1; x <= x2; x++)
+                  for (let z = z1; z <= z2; z++) {
+                    const b = dim.getBlock({ x, y, z });
+                    if (b && !b.isAir) {
+                      let i = pal.indexOf(b.typeId);
+                      if (i < 0) i = pal.push(b.typeId) - 1;
+                      out.push(x - x1, y - y1, z - z1, i);
+                    }
+                    if (++n % 3000 === 0) yield;
+                  }
+              const s = JSON.stringify({ pal, out });
+              for (let i = 0; i < s.length; i += 8000) log(`CDW_SCAN ${i / 8000} ${s.slice(i, i + 8000)}`);
+              log("CDW_SCAN_END");
+            })()
+          ));
+          break;
+        }
+        case "hubat": {
+          const [x, z] = args.map(Number);
+          const dim = world.getDimension("minecraft:overworld");
+          void world.tickingAreaManager.createTickingArea("cdw_dbg", { dimension: dim, from: { x: x - 30, y: 0, z: z - 30 }, to: { x: x + 30, y: 0, z: z + 30 } }).then(() => {
+            const s = surfaceY(dim, x, z);
+            wdata().hub = { x, y: s?.y ?? 64, z, stage: 0 };
+            markWorldDirty();
+            void buildHub(0, true).then(() => log("HUB_BUILT", JSON.stringify(wdata().hub)));
+          });
+          break;
+        }
+        case "hubstage":
+          void upgradeHub(Number(args[0])).then(() => log("HUB_STAGE_DONE"));
+          break;
+        case "hubscan": {
+          const h = wdata().hub;
+          if (h) system.sendScriptEvent("cdw:debug", `scan ${h.x - 23} ${h.y - 4} ${h.z - 23} ${h.x + 23} ${h.y + 34} ${h.z + 23}`);
+          break;
+        }
+        case "dgat": {
+          const [id, x, z] = [args[0], Number(args[1]), Number(args[2])];
+          void testBuildDungeon(id, { x, z }).then((st) => {
+            log("DG_BUILT", JSON.stringify({ x: st.x, y: st.y, z: st.z }));
+            if (args[3] === "scan") system.sendScriptEvent("cdw:debug", `scan ${st.x} ${st.y - 18} ${st.z - 118} ${st.x} ${st.y + 60} ${st.z + 10}`);
+          });
+          break;
+        }
         case "plant":
           if (p) void plantHub(p, { x: Math.floor(p.location.x), y: Math.floor(p.location.y) - 1, z: Math.floor(p.location.z) }).then(() => emit("flag", { key: "hub_planted", player: p }));
           break;
