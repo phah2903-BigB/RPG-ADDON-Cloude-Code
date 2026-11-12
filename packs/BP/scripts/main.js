@@ -1,7 +1,7 @@
 // Chroniken des Weltenbaums – generiert aus src/ (TypeScript). Nicht direkt bearbeiten.
 
 // src/main.ts
-import { CommandPermissionLevel, CustomCommandStatus, ItemStack as ItemStack11, system as system22, world as world21 } from "@minecraft/server";
+import { CommandPermissionLevel, CustomCommandStatus, ItemStack as ItemStack11, system as system23, world as world21 } from "@minecraft/server";
 
 // src/core/store.ts
 import { world as world2, system as system2 } from "@minecraft/server";
@@ -4054,13 +4054,13 @@ function initAchievements() {
 }
 
 // src/systems/items.ts
-import { BlockPermutation as BlockPermutation3, ItemStack as ItemStack8, system as system18, world as world17 } from "@minecraft/server";
+import { BlockPermutation as BlockPermutation3, ItemStack as ItemStack8, system as system19, world as world17 } from "@minecraft/server";
 
 // src/ui/book.ts
 import { EquipmentSlot as EquipmentSlot6, ItemStack as ItemStack7, world as world16 } from "@minecraft/server";
 
 // src/world/dungeons.ts
-import { system as system14, world as world12, BlockPermutation as BlockPermutation2, ItemStack as ItemStack4 } from "@minecraft/server";
+import { system as system15, world as world12, BlockPermutation as BlockPermutation2, ItemStack as ItemStack4 } from "@minecraft/server";
 
 // src/world/builder.ts
 import { BlockPermutation, BlockVolume, system as system10, world as world8 } from "@minecraft/server";
@@ -4562,6 +4562,57 @@ function resumeDefeat(tag) {
     st.stage = Math.max(st.stage, Number(parts[2]) + 1);
     markWorldDirty();
   }
+}
+
+// src/world/cinematics.ts
+import { EasingType, system as system14 } from "@minecraft/server";
+function cinematic(players2, shots, hold = 1.5) {
+  if (autotest.on || !shots.length) return;
+  for (const p of players2) {
+    try {
+      p.camera.fade({ fadeTime: { fadeInTime: 0.4, holdTime: 0.2, fadeOutTime: 0.6 }, fadeColor: { red: 0, green: 0, blue: 0 } });
+    } catch {
+    }
+  }
+  let t = 12;
+  shots.forEach((s2, i) => {
+    system14.runTimeout(() => {
+      for (const p of players2) {
+        if (!isValid(p)) continue;
+        try {
+          p.camera.setCamera("minecraft:free", i === 0 ? { location: s2.loc, facingLocation: s2.look } : { location: s2.loc, facingLocation: s2.look, easeOptions: { easeTime: s2.sec, easeType: EasingType.InOutSine } });
+        } catch {
+        }
+      }
+    }, t);
+    t += Math.round((i === 0 ? 0.5 : s2.sec) * 20);
+  });
+  system14.runTimeout(() => {
+    for (const p of players2) {
+      if (!isValid(p)) continue;
+      try {
+        p.camera.fade({ fadeTime: { fadeInTime: 0.3, holdTime: 0.2, fadeOutTime: 0.5 }, fadeColor: { red: 0, green: 0, blue: 0 } });
+      } catch {
+      }
+    }
+  }, t + Math.round(hold * 20) - 6);
+  system14.runTimeout(() => {
+    for (const p of players2) {
+      if (!isValid(p)) continue;
+      try {
+        p.camera.clear();
+      } catch {
+      }
+    }
+  }, t + Math.round(hold * 20));
+}
+function orbit(players2, center, radius, height, lookY, seconds = 6) {
+  const shots = [];
+  for (let i = 0; i <= 3; i++) {
+    const a = i / 4 * Math.PI * 1.5 + Math.PI / 4;
+    shots.push({ loc: { x: center.x + Math.cos(a) * radius, y: center.y + height + i * 1.5, z: center.z + Math.sin(a) * radius }, look: { x: center.x, y: center.y + lookY, z: center.z }, sec: seconds / 3 });
+  }
+  cinematic(players2, shots);
 }
 
 // src/world/dungeons.ts
@@ -5201,7 +5252,12 @@ async function onHeart(p, loc) {
       p.dimension.getBlock(h)?.setPermutation(BlockPermutation2.resolve("cdw:wurzelherz", { "cdw:purified": true }));
     } catch {
     }
-    for (let r = 1; r < 8; r++) system14.runTimeout(() => ring(p.dimension, "minecraft:totem_particle", h, r, r * 4), r * 4);
+    for (let r = 1; r < 8; r++) system15.runTimeout(() => ring(p.dimension, "minecraft:totem_particle", h, r, r * 4), r * 4);
+    const near = p.dimension.getPlayers({ location: h, maxDistance: 32 });
+    cinematic(near, [
+      { loc: V.add(h, { x: 4, y: 3, z: 4 }), look: V.add(h, { x: 0.5, y: 0.8, z: 0.5 }), sec: 0 },
+      { loc: V.add(h, { x: -3, y: 5, z: 3 }), look: V.add(h, { x: 0.5, y: 0.8, z: 0.5 }), sec: 3 }
+    ]);
     sound(p.dimension, "random.totem", h, 1, 1);
     for (const pl of players()) title(pl, "\xA76Wurzelherz gereinigt", `\xA7f${def.name}`, 10, 60, 20);
     emit("flag", { key: `heart:${def.id}`, player: p });
@@ -5236,7 +5292,7 @@ function dungeonPos(id) {
   return { x: st.x, y: st.y + 1, z: st.z };
 }
 function initDungeons() {
-  system14.runInterval(() => {
+  system15.runInterval(() => {
     for (const def of DUNGEONS) {
       const st = wdata().dungeons[def.id];
       if (!st) continue;
@@ -5349,7 +5405,7 @@ function setClass(p, cls, starter) {
 }
 
 // src/world/hub.ts
-import { system as system15, world as world14 } from "@minecraft/server";
+import { system as system16, world as world14 } from "@minecraft/server";
 
 // src/world/npcs.ts
 import { world as world13 } from "@minecraft/server";
@@ -5709,6 +5765,9 @@ async function buildHub(stage, full) {
           placeNpcs(stage, origin);
           registerWaystone("hub", { x: origin.x + HUB_SPOTS.waystone.x, y: origin.y + 1, z: origin.z + HUB_SPOTS.waystone.z }, "minecraft:overworld", "Hain des Erwachens");
           for (let i = 0; i < 30; i++) particle(dim, "minecraft:totem_particle", V.add(origin, { x: (Math.random() - 0.5) * 16, y: 2 + Math.random() * 10, z: (Math.random() - 0.5) * 16 }));
+          const viewers = dim.getPlayers({ location: origin, maxDistance: 64 });
+          const tp = treeParams(stage);
+          orbit(viewers, V.add(origin, { x: 0.5, y: 0, z: 0.5 }), 16 + stage * 2, 6 + stage * 2, tp.h * 0.6, full ? 7 : 5);
         });
         b.run(() => resolve2(), 60);
       });
@@ -5733,7 +5792,7 @@ function resetHubLocation() {
   const w = wdata();
   w.hub = void 0;
   markWorldDirty();
-  system15.run(() => {
+  system16.run(() => {
     for (const e of world14.getDimension("minecraft:overworld").getEntities({ type: "cdw:npc" })) {
       try {
         e.remove();
@@ -5744,7 +5803,7 @@ function resetHubLocation() {
 }
 
 // src/ui/npcmenus.ts
-import { system as system17 } from "@minecraft/server";
+import { system as system18 } from "@minecraft/server";
 
 // src/ui/shop.ts
 import { EquipmentSlot as EquipmentSlot5, ItemStack as ItemStack6 } from "@minecraft/server";
@@ -6105,7 +6164,7 @@ async function openForge(p) {
 }
 
 // src/world/events.ts
-import { system as system16, world as world15 } from "@minecraft/server";
+import { system as system17, world as world15 } from "@minecraft/server";
 function spawnMobAt(id, loc, lvl, tags = []) {
   try {
     const dim = world15.getDimension("minecraft:overworld");
@@ -6142,8 +6201,8 @@ function spawnAction(mob, n, where, extra) {
     return true;
   };
   if (!pending2()) {
-    const id = system16.runInterval(() => {
-      if (pending2()) system16.clearRun(id);
+    const id = system17.runInterval(() => {
+      if (pending2()) system17.clearRun(id);
     }, 40);
   }
 }
@@ -6401,7 +6460,7 @@ function summonWorldBoss(p) {
   return void 0;
 }
 function initEvents() {
-  system16.runInterval(() => {
+  system17.runInterval(() => {
     try {
       tickDefense();
       tickCamp();
@@ -6409,7 +6468,7 @@ function initEvents() {
       log("Event-Tick:", String(e));
     }
   }, 20);
-  system16.runInterval(() => {
+  system17.runInterval(() => {
     try {
       tickZones();
       tickEventCompletion();
@@ -6417,7 +6476,7 @@ function initEvents() {
       log("Zonen-Tick:", String(e));
     }
   }, 60);
-  system16.runInterval(() => {
+  system17.runInterval(() => {
     try {
       tickWorldEvents();
     } catch (e) {
@@ -7013,19 +7072,19 @@ function recall(p, item) {
   const start = V.floor(p.location);
   title(p, "", "\xA7aKonzentration\u2026 nicht bewegen", 0, 60, 5);
   let n = 0;
-  const id = system18.runInterval(() => {
+  const id = system19.runInterval(() => {
     if (!isValid(p)) {
-      system18.clearRun(id);
+      system19.clearRun(id);
       return;
     }
     if (V.dist(V.floor(p.location), start) > 1.5) {
-      system18.clearRun(id);
+      system19.clearRun(id);
       msg(p, "\xA7cR\xFCckkehr abgebrochen.");
       return;
     }
     particle(p.dimension, "minecraft:villager_happy", V.add(p.location, { x: Math.random() - 0.5, y: 1 + Math.random(), z: Math.random() - 0.5 }));
     if (++n >= 6) {
-      system18.clearRun(id);
+      system19.clearRun(id);
       if (takeItem(p, item.typeId, 1)) travel(p, "hub", true);
     }
   }, 10);
@@ -7075,21 +7134,21 @@ function registerComponents(ev) {
       if (!w || w.type === "langbogen") return;
       const p = e.source;
       const id = it.typeId;
-      system18.run(() => useWeapon(p, id));
+      system19.run(() => useWeapon(p, id));
     }
   });
   items.registerCustomComponent("cdw:rune", {
     onUse(e, params) {
       const id = params.params?.ability;
       const p = e.source;
-      if (id) system18.run(() => castRune(p, id));
+      if (id) system19.run(() => castRune(p, id));
     }
   });
   items.registerCustomComponent("cdw:consumable", {
     onConsume(e) {
       const src = e.source;
       const id = e.itemStack.typeId;
-      if (src.typeId === "minecraft:player") system18.run(() => applyConsumable(src, id));
+      if (src.typeId === "minecraft:player") system19.run(() => applyConsumable(src, id));
     }
   });
   items.registerCustomComponent("cdw:tool", {
@@ -7097,7 +7156,7 @@ function registerComponents(ev) {
       const it = e.itemStack;
       if (!it) return;
       const p = e.source;
-      system18.run(() => void useTool(p, it));
+      system19.run(() => void useTool(p, it));
     }
   });
   const blocks = ev.blockComponentRegistry;
@@ -7106,14 +7165,14 @@ function registerComponents(ev) {
       const p = e.player;
       if (!p) return;
       const loc = e.block.location;
-      system18.run(() => void openWaystone(p, loc));
+      system19.run(() => void openWaystone(p, loc));
     }
   });
   blocks.registerCustomComponent("cdw:waystone_own", {
     onPlace(e) {
       const loc = e.block.location;
       const dim = e.dimension.id;
-      system18.run(() => {
+      system19.run(() => {
         const near = e.dimension.getPlayers({ location: loc, maxDistance: 8 })[0];
         registerWaystone(`own_${loc.x}_${loc.y}_${loc.z}`, loc, dim, `${near?.name ?? "Eigener"}s Wegstein (${loc.x}, ${loc.z})`, near?.name);
       });
@@ -7121,40 +7180,40 @@ function registerComponents(ev) {
     onPlayerBreak(e) {
       const loc = e.block.location;
       const dim = e.dimension.id;
-      system18.run(() => unregisterAt(loc, dim));
+      system19.run(() => unregisterAt(loc, dim));
     },
     onPlayerInteract(e) {
       const p = e.player;
       if (!p) return;
       const loc = e.block.location;
-      system18.run(() => void openWaystone(p, loc));
+      system19.run(() => void openWaystone(p, loc));
     }
   });
   blocks.registerCustomComponent("cdw:board", {
     onPlayerInteract(e) {
       const p = e.player;
-      if (p) system18.run(() => void openBounties(p));
+      if (p) system19.run(() => void openBounties(p));
     }
   });
   blocks.registerCustomComponent("cdw:runestone", {
     onPlayerInteract(e) {
       const p = e.player;
       const loc = e.block.location;
-      if (p) system18.run(() => onRuneStone(p, loc));
+      if (p) system19.run(() => onRuneStone(p, loc));
     }
   });
   blocks.registerCustomComponent("cdw:heart", {
     onPlayerInteract(e) {
       const p = e.player;
       const loc = e.block.location;
-      if (p) system18.run(() => void onHeart(p, loc));
+      if (p) system19.run(() => void onHeart(p, loc));
     }
   });
   blocks.registerCustomComponent("cdw:altar", {
     onPlayerInteract(e) {
       const p = e.player;
       if (!p) return;
-      system18.run(async () => {
+      system19.run(async () => {
         const inv = p.getComponent("minecraft:inventory")?.container;
         let has = false;
         if (inv) {
@@ -7188,7 +7247,7 @@ function initItemWatch() {
     if (!it || !it.typeId.startsWith("cdw:")) return;
     const p = ev.player;
     const slot = ev.slot;
-    system18.run(() => {
+    system19.run(() => {
       try {
         const inv = p.getComponent("minecraft:inventory")?.container;
         const cur = inv?.getItem(slot);
@@ -7208,7 +7267,7 @@ function initItemWatch() {
 }
 
 // src/world/actions.ts
-import { system as system19, world as world18 } from "@minecraft/server";
+import { system as system20, world as world18 } from "@minecraft/server";
 function setNpcHomeFlags(id, x, y, z) {
   const f = wdata().flags;
   f[`npc_${id}_x`] = x;
@@ -7222,7 +7281,7 @@ function runAction(a, p) {
   try {
     switch (parts[0]) {
       case "classpick":
-        for (const pl of players()) if (!pdata(pl).cls) system19.runTimeout(() => void openClassPick(pl), 40);
+        for (const pl of players()) if (!pdata(pl).cls) system20.runTimeout(() => void openClassPick(pl), 40);
         break;
       case "spawn":
         spawnAction(parts[1], Number(parts[2]), parts[3], parts[4]);
@@ -7312,11 +7371,11 @@ function resolveTarget(t) {
 function initActions() {
   hooks.action = runAction;
   hooks.resolveTarget = resolveTarget;
-  hooks.onMainChanged = () => system19.run(refreshHud);
+  hooks.onMainChanged = () => system20.run(refreshHud);
 }
 
 // src/selftest.ts
-import { ItemStack as ItemStack9, system as system20, world as world19 } from "@minecraft/server";
+import { ItemStack as ItemStack9, system as system21, world as world19 } from "@minecraft/server";
 var BLOCKS_TO_CHECK = [
   "cdw:wegstein",
   "cdw:wegstein_eigen",
@@ -7402,13 +7461,13 @@ async function runSelfTest(mode = "all") {
   log(`SELFTEST_DONE errors=${errors.length}`);
 }
 function initSelfTest() {
-  system20.afterEvents.scriptEventReceive.subscribe((ev) => {
+  system21.afterEvents.scriptEventReceive.subscribe((ev) => {
     if (ev.id === "cdw:selftest") void runSelfTest(ev.message || "all");
   });
 }
 
 // src/debug.ts
-import { ItemStack as ItemStack10, system as system21, world as world20 } from "@minecraft/server";
+import { ItemStack as ItemStack10, system as system22, world as world20 } from "@minecraft/server";
 function byName(name) {
   return world20.getAllPlayers().find((p) => p.name === name);
 }
@@ -7416,12 +7475,12 @@ function reply(obj) {
   const s2 = JSON.stringify(obj);
   log("CDW_STATE " + s2);
   try {
-    system21.sendScriptEvent("cdwtest:state", s2.slice(0, 2e3));
+    system22.sendScriptEvent("cdwtest:state", s2.slice(0, 2e3));
   } catch {
   }
 }
 function initDebug() {
-  system21.afterEvents.scriptEventReceive.subscribe((ev) => {
+  system22.afterEvents.scriptEventReceive.subscribe((ev) => {
     if (ev.id !== "cdw:debug") return;
     const [cmd, ...args] = ev.message.trim().split(/\s+/);
     const p = args[0] ? byName(args[0]) : void 0;
@@ -7444,7 +7503,7 @@ function initDebug() {
           const dim = world20.getDimension("minecraft:overworld");
           const pal = [];
           const out = [];
-          void world20.tickingAreaManager.createTickingArea("cdw_scan", { dimension: dim, from: { x: x1, y: 0, z: z1 }, to: { x: x2, y: 0, z: z2 } }).then(() => system21.runJob(
+          void world20.tickingAreaManager.createTickingArea("cdw_scan", { dimension: dim, from: { x: x1, y: 0, z: z1 }, to: { x: x2, y: 0, z: z2 } }).then(() => system22.runJob(
             function* () {
               let n = 0;
               for (let y = y1; y <= y2; y++)
@@ -7481,14 +7540,14 @@ function initDebug() {
           break;
         case "hubscan": {
           const h = wdata().hub;
-          if (h) system21.sendScriptEvent("cdw:debug", `scan ${h.x - 23} ${h.y - 4} ${h.z - 23} ${h.x + 23} ${h.y + 34} ${h.z + 23}`);
+          if (h) system22.sendScriptEvent("cdw:debug", `scan ${h.x - 23} ${h.y - 4} ${h.z - 23} ${h.x + 23} ${h.y + 34} ${h.z + 23}`);
           break;
         }
         case "dgat": {
           const [id, x, z] = [args[0], Number(args[1]), Number(args[2])];
           void testBuildDungeon(id, { x, z }).then((st) => {
             log("DG_BUILT", JSON.stringify({ x: st.x, y: st.y, z: st.z }));
-            if (args[3] === "scan") system21.sendScriptEvent("cdw:debug", `scan ${st.x} ${st.y - 18} ${st.z - 118} ${st.x} ${st.y + 60} ${st.z + 10}`);
+            if (args[3] === "scan") system22.sendScriptEvent("cdw:debug", `scan ${st.x} ${st.y - 18} ${st.z - 118} ${st.x} ${st.y + 60} ${st.z + 10}`);
           });
           break;
         }
@@ -7512,6 +7571,12 @@ function initDebug() {
           break;
         case "drink":
           if (p) applyConsumable(p, args[1]);
+          break;
+        case "heroic":
+          reply({ heroic: startHeroic(args[0]) ?? "ok" });
+          break;
+        case "wb":
+          if (p) reply({ wb: summonWorldBoss(p) ?? "ok" });
           break;
         case "plant":
           if (p) void plantHub(p, { x: Math.floor(p.location.x), y: Math.floor(p.location.y) - 1, z: Math.floor(p.location.z) }).then(() => emit("flag", { key: "hub_planted", player: p }));
@@ -7573,13 +7638,13 @@ function initDebug() {
 }
 
 // src/main.ts
-system22.beforeEvents.startup.subscribe((ev) => {
+system23.beforeEvents.startup.subscribe((ev) => {
   registerComponents(ev);
   const reg = ev.customCommandRegistry;
   reg.registerCommand({ name: "cdw:buch", description: "\xD6ffnet das Abenteuerbuch (und gibt es zur\xFCck, falls verloren).", permissionLevel: CommandPermissionLevel.Any }, (origin) => {
     const p = origin.sourceEntity;
     if (p?.typeId !== "minecraft:player") return { status: CustomCommandStatus.Failure, message: "Nur f\xFCr Spieler." };
-    system22.run(() => {
+    system23.run(() => {
       ensureBook(p);
       void openBook(p);
     });
@@ -7588,7 +7653,7 @@ system22.beforeEvents.startup.subscribe((ev) => {
   reg.registerCommand({ name: "cdw:rpghud", description: "Schaltet das RPG-HUD an/aus.", permissionLevel: CommandPermissionLevel.Any }, (origin) => {
     const p = origin.sourceEntity;
     if (p?.typeId !== "minecraft:player") return { status: CustomCommandStatus.Failure };
-    system22.run(() => {
+    system23.run(() => {
       const d = pdata(p);
       d.settings.hud = !d.settings.hud;
       markDirty(p);
@@ -7597,7 +7662,7 @@ system22.beforeEvents.startup.subscribe((ev) => {
     return { status: CustomCommandStatus.Success };
   });
   reg.registerCommand({ name: "cdw:test", description: "Selbsttest des RPG-Add-ons (Admin).", permissionLevel: CommandPermissionLevel.GameDirectors }, () => {
-    system22.run(() => void runSelfTest());
+    system23.run(() => void runSelfTest());
     return { status: CustomCommandStatus.Success, message: "Selbsttest gestartet \u2013 siehe Chat/Log." };
   });
 });
@@ -7615,18 +7680,18 @@ function onJoin(p) {
     ensureBook(p);
     if (!wdata().hub) {
       giveItem(p, new ItemStack11("cdw:samen", 1));
-      system22.runTimeout(() => {
+      system23.runTimeout(() => {
         if (isValid(p)) void dialog(p, MAIN[0].intro);
       }, 60);
     } else {
-      system22.runTimeout(() => {
+      system23.runTimeout(() => {
         if (!isValid(p)) return;
         msg(p, "\xA7a\u2726 Willkommen, W\xE4chter! \xA77Der Hain wurde bereits gepflanzt. \xD6ffne dein \xA7eAbenteuerbuch\xA77, um zu beginnen.");
         if (wdata().main.idx >= 1 && !pdata(p).cls) void openClassPick(p);
       }, 60);
     }
   } else if (wdata().main.idx >= 2 && !d.cls) {
-    system22.runTimeout(() => isValid(p) && void openClassPick(p), 80);
+    system23.runTimeout(() => isValid(p) && void openClassPick(p), 80);
   }
   grantPendingMain(p);
   refreshBounties(p);
@@ -7648,7 +7713,7 @@ function init() {
   initSelfTest();
   initDebug();
   world21.afterEvents.playerSpawn.subscribe((ev) => {
-    if (ev.initialSpawn) system22.runTimeout(() => isValid(ev.player) && onJoin(ev.player), 40);
+    if (ev.initialSpawn) system23.runTimeout(() => isValid(ev.player) && onJoin(ev.player), 40);
   });
   world21.afterEvents.playerLeave.subscribe((ev) => {
     forgetStats(ev.playerId);
@@ -7662,7 +7727,7 @@ function init() {
   });
   world21.afterEvents.entitySpawn.subscribe((ev) => {
     const e = ev.entity;
-    system22.runTimeout(() => {
+    system23.runTimeout(() => {
       if (isValid(e) && isHostile(e)) assignLevel(e);
     }, 2);
   });
@@ -7670,20 +7735,20 @@ function init() {
     const e = ev.entity;
     if (isValid(e) && isHostile(e)) assignLevel(e);
   });
-  system22.runInterval(() => {
+  system23.runInterval(() => {
     try {
       maintainNpcs();
     } catch (e) {
       log("NPC-Pflege:", String(e));
     }
   }, 100);
-  system22.beforeEvents.shutdown.subscribe(() => {
+  system23.beforeEvents.shutdown.subscribe(() => {
     try {
       saveWorld();
     } catch {
     }
   });
-  system22.runTimeout(() => {
+  system23.runTimeout(() => {
     for (const p of players()) onJoin(p);
   }, 20);
   log("Chroniken des Weltenbaums geladen.");

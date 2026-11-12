@@ -12,7 +12,8 @@ import { log } from "./core/util";
 import { setClass } from "./ui/classpick";
 import { buildHub, plantHub, upgradeHub } from "./world/hub";
 import { surfaceY } from "./world/builder";
-import { ensureLocation, testBuildDungeon } from "./world/dungeons";
+import { ensureLocation, startHeroic, testBuildDungeon } from "./world/dungeons";
+import { summonWorldBoss } from "./world/events";
 import { getMana, hpInfo, stats } from "./systems/stats";
 import { MAIN } from "./data/quests";
 import { getInfo, mobHp } from "./systems/mobs";
@@ -127,6 +128,12 @@ export function initDebug(): void {
           break;
         case "drink":
           if (p) applyConsumable(p, args[1]);
+          break;
+        case "heroic":
+          reply({ heroic: startHeroic(args[0]) ?? "ok" });
+          break;
+        case "wb":
+          if (p) reply({ wb: summonWorldBoss(p) ?? "ok" });
           break;
         case "plant":
           if (p) void plantHub(p, { x: Math.floor(p.location.x), y: Math.floor(p.location.y) - 1, z: Math.floor(p.location.z) }).then(() => emit("flag", { key: "hub_planted", player: p }));

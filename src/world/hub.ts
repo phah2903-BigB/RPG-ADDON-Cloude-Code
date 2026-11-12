@@ -6,6 +6,7 @@ import { V, broadcast, log, particle, players, sound, title } from "../core/util
 import { BlockSpec, Builder, Palette, withLoadedArea } from "./builder";
 import { spawnNpc } from "./npcs";
 import { registerWaystone } from "./waystones";
+import { orbit } from "./cinematics";
 
 const LEAF = (id: string): BlockSpec => ({ id, states: { persistent_bit: true } });
 const LEAVES: Palette = [
@@ -314,6 +315,9 @@ export async function buildHub(stage: number, full: boolean): Promise<void> {
           placeNpcs(stage, origin);
           registerWaystone("hub", { x: origin.x + HUB_SPOTS.waystone.x, y: origin.y + 1, z: origin.z + HUB_SPOTS.waystone.z }, "minecraft:overworld", "Hain des Erwachens");
           for (let i = 0; i < 30; i++) particle(dim, "minecraft:totem_particle", V.add(origin, { x: (Math.random() - 0.5) * 16, y: 2 + Math.random() * 10, z: (Math.random() - 0.5) * 16 }));
+          const viewers = dim.getPlayers({ location: origin, maxDistance: 64 });
+          const tp = treeParams(stage);
+          orbit(viewers, V.add(origin, { x: 0.5, y: 0, z: 0.5 }), 16 + stage * 2, 6 + stage * 2, tp.h * 0.6, full ? 7 : 5);
         });
         b.run(() => resolve(), 60);
       });

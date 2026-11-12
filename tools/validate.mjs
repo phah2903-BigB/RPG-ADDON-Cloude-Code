@@ -8,7 +8,7 @@ const blocks = new Set(Object.values(vd.MinecraftBlockTypes));
 const items = new Set(Object.values(vd.MinecraftItemTypes));
 const entities = new Set(Object.values(vd.MinecraftEntityTypes));
 let errors = 0;
-const COMPONENTS = /^minecraft:(health|inventory|durability|projectile|cardinal_direction|recipe_shaped|recipe_shapeless|equippable|type_family|item|block|entity|geometry|attachable|client_entity|spawn_rules|vertical_half|corner)$/;
+const COMPONENTS = /^minecraft:(health|inventory|durability|projectile|cardinal_direction|recipe_shaped|recipe_shapeless|equippable|type_family|item|block|entity|geometry|attachable|client_entity|spawn_rules|vertical_half|corner|free)$/;
 const err = (m) => { errors++; console.log("FEHLER:", m); };
 const walk = (d) => fs.existsSync(d) ? fs.readdirSync(d, { withFileTypes: true }).flatMap((e) => e.isDirectory() ? walk(path.join(d, e.name)) : [path.join(d, e.name)]) : [];
 
@@ -33,7 +33,7 @@ for (const f of [...walk(path.join(root, "src")), ...walk(path.join(root, "packs
     const id = m[1];
     if (COMPONENTS.test(id) || /^cdw:r_/.test(id) || id === "cdw:rune_") continue;
     if (id.startsWith("cdw:")) {
-      const ok = known.has(id) || /cdw:(npc|geisterwolf|elite|variant|lit|purified|l|e|hm|dm|d|c|a|o|g|gold|pd|wd|weapon|rune|tool|consumable|waystone|waystone_own|board|runestone|heart|altar|blight|buch|test|rpghud|selftest)$/.test(id) || /cdw:(wisp|trail_)/.test(id);
+      const ok = known.has(id) || /cdw:(npc|geisterwolf|elite|variant|lit|purified|l|e|hm|dm|d|c|a|o|g|gold|pd|wd|weapon|rune|tool|consumable|waystone|waystone_own|board|runestone|heart|altar|blight|buch|test|rpghud|selftest|debug)$/.test(id) || /cdw:(wisp|trail_)/.test(id);
       const ent = fs.existsSync(path.join(root, `packs/BP/entities/cdw/${id.slice(4)}.json`)) || fs.existsSync(path.join(root, `packs/BP/entities/cdw/proj_${id.slice(4)}.json`));
       if (!ok && !ent) err(`${path.relative(root, f)}: unbekannte ID ${id}`);
     } else if (f.includes("recipes") || f.includes("data/quests") || f.includes("ui/shop") || f.includes("data/mobs")) {

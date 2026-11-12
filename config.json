@@ -1,0 +1,15 @@
+{
+  "type": "minecraftBedrock",
+  "name": "Chroniken des Weltenbaums",
+  "namespace": "cdw",
+  "authors": ["Chroniken des Weltenbaums"],
+  "targetVersion": "1.26.30",
+  "experimentalGameplay": {},
+  "packs": {
+    "behaviorPack": "./packs/BP",
+    "resourcePack": "./packs/RP"
+  },
+  "worlds": ["./worlds/*"],
+  "packDefinitions": {},
+  "compiler": { "plugins": [] }
+}

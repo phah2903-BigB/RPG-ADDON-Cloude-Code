@@ -11,6 +11,7 @@ import { assignLevel } from "../systems/mobs";
 import { startBoss } from "./bosses";
 import { choice } from "../systems/ui";
 import { giveItem } from "../systems/quests";
+import { cinematic } from "./cinematics";
 import { createGear, randomGearFor } from "../systems/gear";
 
 export interface Theme {
@@ -755,6 +756,11 @@ export async function onHeart(p: Player, loc: Vector3): Promise<void> {
       /* ignorieren */
     }
     for (let r = 1; r < 8; r++) system.runTimeout(() => ring(p.dimension, "minecraft:totem_particle", h, r, r * 4), r * 4);
+    const near = p.dimension.getPlayers({ location: h, maxDistance: 32 });
+    cinematic(near, [
+      { loc: V.add(h, { x: 4, y: 3, z: 4 }), look: V.add(h, { x: 0.5, y: 0.8, z: 0.5 }), sec: 0 },
+      { loc: V.add(h, { x: -3, y: 5, z: 3 }), look: V.add(h, { x: 0.5, y: 0.8, z: 0.5 }), sec: 3 },
+    ]);
     sound(p.dimension, "random.totem", h, 1, 1);
     for (const pl of players()) title(pl, "§6Wurzelherz gereinigt", `§f${def.name}`, 10, 60, 20);
     emit("flag", { key: `heart:${def.id}`, player: p });

@@ -371,6 +371,26 @@ async function run() {
   check("Legendäre Ausrüstung mit Affixen", !!leg && (leg.nameTag ?? "").startsWith("§6") && leg.getLore().length >= 5, `${leg?.nameTag} lore=${leg?.getLore().length}`);
   check("Ausrüstung bleibt beim Tod erhalten", !!leg && leg.keepOnDeath === true);
 
+  // 12) Endgame: heroischer Dungeon & Weltboss
+  dbg("heroic dornenhain");
+  await wait(10);
+  s = await state();
+  check("Heroischer Modus setzt Dungeon zurück", s.dungeons.dornenhain.stage === 0 && s.dungeons.dornenhain.data.heroicActive === 1, JSON.stringify(s.dungeons.dornenhain.data));
+  dbg("main 26 0");
+  await wait(5);
+  dbg("wb Tester");
+  const wbOk = await until(() => dim.getEntities({ type: "cdw:boss_wurzelwyrm" }).length > 0, 100);
+  check("Weltboss beschworen", wbOk);
+  const wyrm = dim.getEntities({ type: "cdw:boss_wurzelwyrm" })[0];
+  if (wyrm) {
+    const xpW = (await state()).xp;
+    p.teleport({ x: wyrm.location.x + 3, y: wyrm.location.y, z: wyrm.location.z });
+    await wait(10);
+    wyrm.kill();
+    await wait(40);
+    check("Weltboss-Belohnung", (await state()).xp > xpW);
+  }
+
   const pass = results.filter((r) => r[1]).length;
   log(`ERGEBNIS ${pass}/${results.length} bestanden`);
   for (const r of results) if (!r[1]) log("  FEHLGESCHLAGEN: " + r[0]);
