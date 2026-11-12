@@ -564,7 +564,7 @@ export function animationsFor(m: Model): Record<string, object> {
       break;
     }
     case "wyrm":
-      A[`animation.cdw.${id}.walk`] = { loop: true, bones: {} };
+      A[`animation.cdw.${id}.walk`] = { loop: true, bones: { body: { position: [0, "math.sin(q.modified_distance_moved * 20) * 0.6", 0] } } };
       A[`animation.cdw.${id}.idle`] = {
         loop: true,
         bones: {

@@ -61,5 +61,13 @@ for (const f of walk(path.join(root, "src"))) {
   const s = fs.readFileSync(f, "utf8");
   for (const m of s.matchAll(/"(textures\/cdw\/[a-z0-9_\/]+)"/g)) if (!tex(m[1])) err(`${path.relative(root, f)}: Icon fehlt ${m[1]}`);
 }
+// 5) Animationen: keine leeren Knochenlisten (Bedrock-Fehler „Required child not found“)
+for (const f of walk(path.join(root, "packs/RP/animations"))) {
+  const a = JSON.parse(fs.readFileSync(f, "utf8")).animations ?? {};
+  for (const [name, def] of Object.entries(a)) {
+    if (def.bones && Object.keys(def.bones).length === 0) err(`Leere Knochenliste: ${name}`);
+    for (const [bone, ch] of Object.entries(def.bones ?? {})) if (!ch || Object.keys(ch).length === 0) err(`Leerer Knochen ${bone} in ${name}`);
+  }
+}
 console.log(errors ? `${errors} Fehler gefunden.` : "Validierung OK.");
 process.exit(errors ? 1 : 0);

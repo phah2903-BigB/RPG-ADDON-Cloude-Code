@@ -3,7 +3,15 @@
   "animations": {
     "animation.cdw.wyrm.walk": {
       "loop": true,
-      "bones": {}
+      "bones": {
+        "body": {
+          "position": [
+            0,
+            "math.sin(q.modified_distance_moved * 20) * 0.6",
+            0
+          ]
+        }
+      }
     },
     "animation.cdw.wyrm.idle": {
       "loop": true,

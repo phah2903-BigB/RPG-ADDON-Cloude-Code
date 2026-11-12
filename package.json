@@ -1,6 +1,6 @@
 {
   "name": "chroniken-des-weltenbaums",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "RPG-Add-on für Minecraft Bedrock (Realm, PS5, Android)",
   "scripts": {
