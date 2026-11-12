@@ -5,7 +5,7 @@ import { MAIN, BOUNTIES } from "../data/quests";
 import { npcById } from "../data/mobs";
 import { markDirty, pdata, wdata } from "../core/store";
 import { fmt, msg, sound } from "../core/util";
-import { acceptSide, bountyReward, refreshBounties, sideActive, sideAvailable, sideTracker, talkTo, turnInBountyItems } from "../systems/quests";
+import { acceptSide, bountyReward, countItem, refreshBounties, sideActive, sideAvailable, sideTracker, takeItem, talkTo, turnInBountyItems } from "../systems/quests";
 import { spendGold } from "../systems/progression";
 import { invalidate, level } from "../systems/stats";
 import { confirm, dialog, menu, MenuButton } from "../systems/ui";
@@ -139,7 +139,7 @@ async function prestige(p: Player): Promise<void> {
 }
 
 async function altar(p: Player): Promise<void> {
-  const has = (await import("../systems/quests")).countItem(p, "cdw:beschwoerungsstein");
+  const has = countItem(p, "cdw:beschwoerungsstein");
   if (!has) {
     msg(p, "§7Du brauchst einen §dBeschwörungsstein§7 (Belohnung der Hauptgeschichte, später bei Fennick).");
     return;
@@ -150,7 +150,7 @@ async function altar(p: Player): Promise<void> {
     msg(p, `§c${err}`);
     return;
   }
-  (await import("../systems/quests")).takeItem(p, "cdw:beschwoerungsstein", 1);
+  takeItem(p, "cdw:beschwoerungsstein", 1);
 }
 
 export async function openBounties(p: Player): Promise<void> {

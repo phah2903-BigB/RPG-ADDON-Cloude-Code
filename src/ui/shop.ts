@@ -6,7 +6,7 @@ import { emit } from "../core/bus";
 import { markDirty, pdata } from "../core/store";
 import { fmt, msg, sound } from "../core/util";
 import { addGold, repDiscount, repLevel, spendGold } from "../systems/progression";
-import { armorOf, displayName, equippable, getGear, isGear, setGear, weaponOf, createGear } from "../systems/gear";
+import { CLASS_WEAPONS, armorOf, displayName, equippable, getGear, isGear, setGear, weaponOf, createGear } from "../systems/gear";
 import { countItem, giveItem, takeItem } from "../systems/quests";
 import { confirm, menu, MenuButton } from "../systems/ui";
 import { invalidate, level } from "../systems/stats";
@@ -84,6 +84,21 @@ function iconFor(id: string): string | undefined {
   return undefined;
 }
 
+export function buyOffer(p: Player, shopId: string, idx: number): boolean {
+  const o = SHOPS[shopId]?.offers[idx];
+  if (!o) return false;
+  const price = Math.max(1, Math.round(o.price * (1 - repDiscount(p))));
+  if (!spendGold(p, price)) {
+    msg(p, "§cNicht genug Gold.");
+    sound(p, "note.bass", undefined, 0.7);
+    return false;
+  }
+  giveItem(p, new ItemStack(o.id, o.n));
+  msg(p, `§a+ ${itemLabel(o.id)}${o.n > 1 ? ` ×${o.n}` : ""} §7(-${price} Gold)`);
+  sound(p, "random.orb", undefined, 1.4, 0.8);
+  return true;
+}
+
 export async function openShop(p: Player, shopId: string): Promise<void> {
   const shop = SHOPS[shopId];
   if (!shop) return;
@@ -103,15 +118,7 @@ export async function openShop(p: Player, shopId: string): Promise<void> {
         text: `§f${itemLabel(o.id)}${o.n > 1 ? ` ×${o.n}` : ""}\n§e${fmt(price)} Gold`,
         icon: iconFor(o.id),
         action: async () => {
-          if (!spendGold(p, price)) {
-            msg(p, "§cNicht genug Gold.");
-            sound(p, "note.bass", undefined, 0.7);
-          } else {
-            const it = new ItemStack(o.id, o.n);
-            giveItem(p, it);
-            msg(p, `§a+ ${itemLabel(o.id)}${o.n > 1 ? ` ×${o.n}` : ""} §7(-${price} Gold)`);
-            sound(p, "random.orb", undefined, 1.4, 0.8);
-          }
+          buyOffer(p, shopId, shop.offers.indexOf(o));
           await openShop(p, shopId);
         },
       };
@@ -132,7 +139,7 @@ function sellValue(it: ItemStack): number {
   return 0;
 }
 
-export async function openSell(p: Player): Promise<void> {
+export async function openSell(p: Player, autoSell = false): Promise<void> {
   const inv = (p.getComponent("minecraft:inventory") as EntityInventoryComponent | undefined)?.container;
   if (!inv) return;
   const entries: { slot: number; it: ItemStack; v: number }[] = [];
@@ -147,6 +154,11 @@ export async function openSell(p: Player): Promise<void> {
     return;
   }
   const total = entries.filter((e) => !isGear(e.it.typeId)).reduce((s, e) => s + e.v, 0);
+  if (autoSell) {
+    for (const e of entries) if (!isGear(e.it.typeId)) inv.setItem(e.slot, undefined);
+    if (total > 0) addGold(p, total, "(Verkauf)", false);
+    return;
+  }
   const buttons: MenuButton[] = [];
   if (total > 0)
     buttons.push({
@@ -203,7 +215,7 @@ export async function openSmith(p: Player): Promise<void> {
   ]);
 }
 
-async function upgradeMenu(p: Player): Promise<void> {
+export async function upgradeMenu(p: Player): Promise<void> {
   const h = heldGear(p);
   if (!h) {
     msg(p, "§cHalte eine Waffe in der Hand oder trage Rüstung aus dem Hain.");
@@ -342,7 +354,7 @@ export async function openForge(p: Player): Promise<void> {
   const tierName = ["bronze", "stahl", "mondsilber", "runenobsidian"][tier - 1];
   const bars = tier >= 3 ? 3 : 0;
   const gold = 60 * tier * tier;
-  const types = (d.cls ? (await import("../systems/gear")).CLASS_WEAPONS[d.cls] : undefined) ?? ["schwert"];
+  const types = (d.cls ? CLASS_WEAPONS[d.cls] : undefined) ?? ["schwert"];
   await menu(
     p,
     "§6Waffe schmieden",

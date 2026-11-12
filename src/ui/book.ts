@@ -16,6 +16,7 @@ import { giveRunes, openClassPick } from "./classpick";
 import { travel } from "../world/waystones";
 import { resetHubLocation } from "../world/hub";
 import { addXp } from "../systems/progression";
+import { openBounties } from "./npcmenus";
 
 export async function openBook(p: Player): Promise<void> {
   const d = pdata(p);
@@ -61,7 +62,7 @@ export async function openQuests(p: Player): Promise<void> {
   }
   for (const q of sideActive(p))
     buttons.push({ text: `§e${q.title}${d.tracked === q.id ? " §a(verfolgt)" : ""}\n§8${sideTracker(p, q).text.replace(/§./g, "").slice(0, 42)}`, icon: "textures/cdw/ui/quest_active", action: () => questDetail(p, q.id) });
-  buttons.push({ text: "§6Kopfgelder\n§8Heutige Aufträge", icon: "textures/cdw/ui/bounty", action: async () => (await import("./npcmenus")).openBounties(p) });
+  buttons.push({ text: "§6Kopfgelder\n§8Heutige Aufträge", icon: "textures/cdw/ui/bounty", action: () => openBounties(p) });
   buttons.push({ text: "§fChronik\n§8Abgeschlossene Geschichte", icon: "textures/cdw/ui/chronicle", action: () => openChronicle(p) });
   await menu(p, "§6Quests", questLog(p), buttons, { back: () => openBook(p) });
 }

@@ -1,5 +1,10 @@
 // Debug-Schnittstelle für automatisierte Tests (nur per /scriptevent, also nur mit Cheats/OP nutzbar).
-import { Player, system, world } from "@minecraft/server";
+import { ItemStack, Player, system, world } from "@minecraft/server";
+import { buyOffer, openSell, upgradeMenu } from "./ui/shop";
+import { addGold } from "./systems/progression";
+import { giveItem } from "./systems/quests";
+import { createGear } from "./systems/gear";
+import { applyConsumable } from "./systems/items";
 import { ClassId } from "./data/classes";
 import { emit } from "./core/bus";
 import { markWorldDirty, pdata, wdata } from "./core/store";
@@ -102,6 +107,27 @@ export function initDebug(): void {
           });
           break;
         }
+        case "gold":
+          if (p) addGold(p, Number(args[1]), "", false);
+          break;
+        case "give":
+          if (p) giveItem(p, new ItemStack(args[1], Number(args[2] ?? 1)));
+          break;
+        case "gear":
+          if (p) giveItem(p, createGear(args[1], Number(args[2] ?? 0)));
+          break;
+        case "buy":
+          if (p) reply({ buy: buyOffer(p, args[1], Number(args[2])) });
+          break;
+        case "upgrade":
+          if (p) void upgradeMenu(p);
+          break;
+        case "sell":
+          if (p) void openSell(p, true);
+          break;
+        case "drink":
+          if (p) applyConsumable(p, args[1]);
+          break;
         case "plant":
           if (p) void plantHub(p, { x: Math.floor(p.location.x), y: Math.floor(p.location.y) - 1, z: Math.floor(p.location.z) }).then(() => emit("flag", { key: "hub_planted", player: p }));
           break;

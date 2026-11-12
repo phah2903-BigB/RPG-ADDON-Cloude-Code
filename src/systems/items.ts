@@ -17,7 +17,7 @@ import { summonWorldBoss } from "../world/events";
 import { confirm } from "./ui";
 import { takeItem } from "./quests";
 
-function applyConsumable(p: Player, typeId: string): void {
+export function applyConsumable(p: Player, typeId: string): void {
   const s = simpleItem(typeId.slice(4));
   if (!s?.effects) return;
   const d = pdata(p);
