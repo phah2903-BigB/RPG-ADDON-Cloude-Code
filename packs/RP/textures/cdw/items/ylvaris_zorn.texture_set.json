@@ -1,0 +1,7 @@
+{
+  "format_version": "1.21.30",
+  "minecraft:texture_set": {
+    "color": "ylvaris_zorn",
+    "metalness_emissive_roughness_subsurface": "ylvaris_zorn_mers"
+  }
+}

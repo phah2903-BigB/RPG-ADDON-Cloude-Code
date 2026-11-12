@@ -1,0 +1,7 @@
+{
+  "format_version": "1.21.30",
+  "minecraft:texture_set": {
+    "color": "zweihaender_mondsilber",
+    "metalness_emissive_roughness_subsurface": "zweihaender_mondsilber_mers"
+  }
+}

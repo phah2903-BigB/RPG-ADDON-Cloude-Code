@@ -1,0 +1,7 @@
+{
+  "format_version": "1.21.30",
+  "minecraft:texture_set": {
+    "color": "zauberstab_runenobsidian",
+    "metalness_emissive_roughness_subsurface": "zauberstab_runenobsidian_mers"
+  }
+}

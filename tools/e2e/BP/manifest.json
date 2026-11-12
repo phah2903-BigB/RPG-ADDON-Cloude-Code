@@ -1,0 +1,9 @@
+{
+  "format_version": 2,
+  "header": { "name": "CdW E2E-Tests (nicht ausliefern)", "description": "Automatisierte Tests mit simulierten Spielern", "uuid": "0b6f3f2e-3d6a-4a3e-9f0c-6c1d2e4f5a01", "version": [1, 0, 0], "min_engine_version": [1, 26, 30] },
+  "modules": [{ "type": "script", "language": "javascript", "uuid": "0b6f3f2e-3d6a-4a3e-9f0c-6c1d2e4f5a02", "version": [1, 0, 0], "entry": "scripts/main.js" }],
+  "dependencies": [
+    { "module_name": "@minecraft/server", "version": "2.12.0-beta" },
+    { "module_name": "@minecraft/server-gametest", "version": "1.0.0-beta" }
+  ]
+}

@@ -2409,6 +2409,7 @@ async function showWithRetry(p, show, tries = 12) {
   return void 0;
 }
 async function menu(p, titleText, body, buttons, opts = {}) {
+  if (autotest.on) return void 0;
   const f = new ActionFormData().title(titleText);
   if (body) f.body(body);
   for (const b2 of buttons) f.button(b2.text, b2.icon);
@@ -2424,11 +2425,13 @@ async function menu(p, titleText, body, buttons, opts = {}) {
   return res.selection;
 }
 async function confirm(p, titleText, body, yes = "\xA7aJa", no = "\xA7cNein") {
+  if (autotest.on) return true;
   const f = new MessageFormData().title(titleText).body(body).button1(no).button2(yes);
   const res = await showWithRetry(p, () => f.show(p));
   return !!res && !res.canceled && res.selection === 1;
 }
 async function modal(p, form) {
+  if (autotest.on) return void 0;
   const res = await showWithRetry(p, () => form.show(p));
   if (!res || res.canceled) return void 0;
   return res;
@@ -2439,6 +2442,7 @@ function speakerName(s2) {
   return n ? `\xA7a${n.name}` : s2;
 }
 async function dialog(p, lines, finalButton = "\xA7aVerstanden") {
+  if (autotest.on) return true;
   for (let i = 0; i < lines.length; i++) {
     const l = lines[i];
     const last = i === lines.length - 1;
@@ -2455,6 +2459,7 @@ async function dialog(p, lines, finalButton = "\xA7aVerstanden") {
   return true;
 }
 async function choice(p, l, options) {
+  if (autotest.on) return 0;
   const f = new ActionFormData().title(speakerName(l.s)).body(`\xA7f${l.t}
  `);
   for (const o of options) f.button(o);
@@ -2462,11 +2467,13 @@ async function choice(p, l, options) {
   if (!res || res.canceled) return void 0;
   return res.selection;
 }
+var autotest;
 var init_ui = __esm({
   "src/systems/ui.ts"() {
     "use strict";
     init_quests();
     init_mobs();
+    autotest = { on: false };
   }
 });
 
@@ -4357,7 +4364,7 @@ var init_dungeons = __esm({
     T = {
       forest: {
         wall: [{ b: "minecraft:mossy_stone_bricks", w: 4 }, { b: "minecraft:stone_bricks", w: 2 }, { b: "minecraft:cracked_stone_bricks", w: 1 }, { b: "minecraft:moss_block", w: 1 }],
-        floor: [{ b: "minecraft:moss_block", w: 3 }, { b: "minecraft:mossy_cobblestone", w: 2 }, { b: "minecraft:rooted_dirt", w: 1 }],
+        floor: [{ b: "minecraft:moss_block", w: 3 }, { b: "minecraft:mossy_cobblestone", w: 2 }, { b: "minecraft:dirt_with_roots", w: 1 }],
         ceil: [{ b: "minecraft:mossy_stone_bricks", w: 3 }, { b: "minecraft:moss_block", w: 2 }],
         pillar: { id: "minecraft:oak_log", states: { pillar_axis: "y" } },
         accent: "minecraft:chiseled_stone_bricks",
@@ -4382,7 +4389,7 @@ var init_dungeons = __esm({
         pillar: "minecraft:chiseled_red_sandstone",
         accent: "minecraft:gold_block",
         light: "minecraft:pearlescent_froglight",
-        deco: [{ b: "minecraft:dead_bush", w: 2 }, { b: "minecraft:sand", w: 1 }],
+        deco: [{ b: "minecraft:deadbush", w: 2 }, { b: "minecraft:sand", w: 1 }],
         surface: [{ b: "minecraft:cut_sandstone", w: 3 }, { b: "minecraft:sandstone", w: 2 }]
       },
       frost: {
@@ -4827,6 +4834,16 @@ async function buildHub(stage, full) {
   building = true;
   const dim = world14.getDimension("minecraft:overworld");
   const origin = { x: h.x, y: h.y, z: h.z };
+  const protect = () => {
+    for (const p of dim.getPlayers({ location: origin, maxDistance: 34 })) {
+      try {
+        p.addEffect("slow_falling", 400, { showParticles: false });
+        p.addEffect("resistance", 400, { amplifier: 4, showParticles: false });
+      } catch {
+      }
+    }
+  };
+  protect();
   try {
     await withLoadedArea("hub", dim, V.add(origin, { x: -24, y: -5, z: -24 }), V.add(origin, { x: 24, y: 40, z: 24 }), () => {
       return new Promise((resolve2) => {
@@ -4840,6 +4857,15 @@ async function buildHub(stage, full) {
         buildTree(b, stage);
         placeBlocksForStage(b, stage);
         b.then(() => {
+          protect();
+          for (const p of dim.getPlayers({ location: origin, maxDistance: 24 })) {
+            if (Math.abs(p.location.y - (origin.y + 1)) > 2) {
+              try {
+                p.teleport({ x: origin.x + 0.5, y: origin.y + 1, z: origin.z + 4.5 });
+              } catch {
+              }
+            }
+          }
           placeNpcs(stage, origin);
           registerWaystone("hub", { x: origin.x + HUB_SPOTS.waystone.x, y: origin.y + 1, z: origin.z + HUB_SPOTS.waystone.z }, "minecraft:overworld", "Hain des Erwachens");
           for (let i = 0; i < 30; i++) particle(dim, "minecraft:totem_particle", V.add(origin, { x: (Math.random() - 0.5) * 16, y: 2 + Math.random() * 10, z: (Math.random() - 0.5) * 16 }));
@@ -6221,7 +6247,7 @@ var init_book = __esm({
 // src/main.ts
 init_store();
 init_util();
-import { CommandPermissionLevel, CustomCommandStatus, ItemStack as ItemStack10, system as system21, world as world20 } from "@minecraft/server";
+import { CommandPermissionLevel, CustomCommandStatus, ItemStack as ItemStack10, system as system22, world as world21 } from "@minecraft/server";
 
 // src/systems/combat.ts
 init_balance();
@@ -6573,6 +6599,23 @@ init_bus();
 import { EquipmentSlot as EquipmentSlot4 } from "@minecraft/server";
 var abilityById = new Map(ABILITIES.map((a) => [a.id, a]));
 var lastCast = /* @__PURE__ */ new Map();
+var readyAt = /* @__PURE__ */ new Map();
+function onCooldown(p, key) {
+  return (readyAt.get(`${p.id}:${key}`) ?? 0) > now();
+}
+function setCooldown(p, key, category, ticks) {
+  readyAt.set(`${p.id}:${key}`, now() + ticks);
+  try {
+    p.startItemCooldown(category, ticks);
+  } catch {
+  }
+}
+function clearCooldown(p, category) {
+  try {
+    p.startItemCooldown(category, 1);
+  } catch {
+  }
+}
 var wolves = /* @__PURE__ */ new Map();
 function now() {
   return system5.currentTick;
@@ -6628,17 +6671,21 @@ function castRune(p, abilityId) {
     msg(p, `\xA7cBen\xF6tigt Stufe ${a.level}.`);
     return;
   }
-  if (p.getItemCooldown(`cdw_${a.id}`) > 0) return;
+  if (onCooldown(p, a.id)) return;
   const cost = manaCost(p, a.mana);
   if (getMana(p) < cost) {
     p.onScreenDisplay.setActionBar("\xA79Nicht genug Mana!");
     sound(p, "note.bass", void 0, 0.6);
+    clearCooldown(p, `cdw_${a.id}`);
     return;
   }
   const ok = runAbility(p, a);
-  if (ok === false) return;
+  if (ok === false) {
+    clearCooldown(p, `cdw_${a.id}`);
+    return;
+  }
   spendMana(p, cost);
-  p.startItemCooldown(`cdw_${a.id}`, cooldownTicks(p, a));
+  setCooldown(p, a.id, `cdw_${a.id}`, cooldownTicks(p, a));
   lastCast.set(p.id, now());
   emit("flag", { key: "ability_used", player: p });
 }
@@ -6910,10 +6957,11 @@ function useWeapon(p, typeId) {
   if (!w) return;
   const t = weaponTypeDef(w.type);
   const cat = `cdw_w_${t.id}`;
-  if (p.getItemCooldown(cat) > 0) return;
+  if (onCooldown(p, cat)) return;
   const cost = manaCost(p, t.abilityMana);
   if (getMana(p) < cost) {
     p.onScreenDisplay.setActionBar("\xA79Nicht genug Mana!");
+    clearCooldown(p, cat);
     return;
   }
   const dim = p.dimension;
@@ -6936,6 +6984,7 @@ function useWeapon(p, typeId) {
       const target = p.getEntitiesFromViewDirection({ maxDistance: 8, families: ["monster"] })[0]?.entity;
       if (!target) {
         msg(p, "\xA77Kein Ziel in Sicht.");
+        clearCooldown(p, cat);
         return;
       }
       const behind = V.add(target.location, V.mul(V.flat(target.getViewDirection()), -1.4));
@@ -6949,6 +6998,7 @@ function useWeapon(p, typeId) {
       const target = p.getEntitiesFromViewDirection({ maxDistance: 4, families: ["monster"] })[0]?.entity;
       if (!target) {
         msg(p, "\xA77Kein Ziel in Reichweite.");
+        clearCooldown(p, cat);
         return;
       }
       dealDamage(p, target, pw.dmg * 2);
@@ -6989,7 +7039,7 @@ function useWeapon(p, typeId) {
       return;
   }
   spendMana(p, cost);
-  if (t.abilityCd > 0) p.startItemCooldown(cat, Math.max(4, Math.round(t.abilityCd * 20 * (1 - stats(p).cdr * 0.5))));
+  if (t.abilityCd > 0) setCooldown(p, cat, cat, Math.max(4, Math.round(t.abilityCd * 20 * (1 - stats(p).cdr * 0.5))));
 }
 var starfallCount = /* @__PURE__ */ new Map();
 function releaseBow(p, typeId, useDuration) {
@@ -7395,18 +7445,23 @@ function registerComponents(ev) {
       if (!it) return;
       const w = weaponOf(it.typeId);
       if (!w || w.type === "langbogen") return;
-      useWeapon(e.source, it.typeId);
+      const p = e.source;
+      const id = it.typeId;
+      system18.run(() => useWeapon(p, id));
     }
   });
   items.registerCustomComponent("cdw:rune", {
     onUse(e, params) {
       const id = params.params?.ability;
-      if (id) castRune(e.source, id);
+      const p = e.source;
+      if (id) system18.run(() => castRune(p, id));
     }
   });
   items.registerCustomComponent("cdw:consumable", {
     onConsume(e) {
-      if (e.source.typeId === "minecraft:player") applyConsumable(e.source, e.itemStack.typeId);
+      const src = e.source;
+      const id = e.itemStack.typeId;
+      if (src.typeId === "minecraft:player") system18.run(() => applyConsumable(src, id));
     }
   });
   items.registerCustomComponent("cdw:tool", {
@@ -7755,16 +7810,118 @@ function initSelfTest() {
   });
 }
 
+// src/debug.ts
+init_bus();
+init_store();
+init_util();
+init_classpick();
+init_hub();
+init_dungeons();
+init_stats();
+init_quests();
+init_mobs2();
+init_ui();
+init_npcmenus();
+import { system as system21, world as world20 } from "@minecraft/server";
+function byName(name) {
+  return world20.getAllPlayers().find((p) => p.name === name);
+}
+function reply(obj) {
+  const s2 = JSON.stringify(obj);
+  log("CDW_STATE " + s2);
+  try {
+    system21.sendScriptEvent("cdwtest:state", s2.slice(0, 2e3));
+  } catch {
+  }
+}
+function initDebug() {
+  system21.afterEvents.scriptEventReceive.subscribe((ev) => {
+    if (ev.id !== "cdw:debug") return;
+    const [cmd, ...args] = ev.message.trim().split(/\s+/);
+    const p = args[0] ? byName(args[0]) : void 0;
+    try {
+      switch (cmd) {
+        case "autotest":
+          autotest.on = args[0] !== "off";
+          log("Autotest", autotest.on ? "an" : "aus");
+          break;
+        case "talk": {
+          const npc = world20.getDimension("minecraft:overworld").getEntities({ type: "cdw:npc", tags: [`cdw_npc:${args[1]}`] })[0];
+          if (p && npc) void onNpcInteract(p, npc);
+          break;
+        }
+        case "cast":
+          if (p) castRune(p, args[1]);
+          break;
+        case "plant":
+          if (p) void plantHub(p, { x: Math.floor(p.location.x), y: Math.floor(p.location.y) - 1, z: Math.floor(p.location.z) }).then(() => emit("flag", { key: "hub_planted", player: p }));
+          break;
+        case "class":
+          if (p) setClass(p, args[1], true);
+          break;
+        case "main": {
+          const w = wdata();
+          w.main.idx = Number(args[0]);
+          w.main.s = Number(args[1] ?? (MAIN[w.main.idx]?.giver ? -1 : 0));
+          w.main.c = 0;
+          markWorldDirty();
+          break;
+        }
+        case "flag":
+          emit("flag", { key: args[1] ?? args[0], player: p });
+          break;
+        case "dungeon": {
+          const st = ensureLocation(args[0]);
+          reply({ dungeon: args[0], st });
+          break;
+        }
+        case "mob": {
+          const e = world20.getEntity(args[0]);
+          if (e) reply({ mob: e.typeId, info: getInfo(e), hp: mobHp(e) });
+          break;
+        }
+        case "state": {
+          if (!p) return;
+          const d = pdata(p);
+          const s2 = stats(p);
+          const w = wdata();
+          reply({
+            name: p.name,
+            cls: d.cls,
+            lvl: s2.level,
+            xp: d.xp,
+            gold: d.gold,
+            hp: hpInfo(p),
+            mana: Math.round(getMana(p)),
+            maxHp: s2.maxHp,
+            main: w.main,
+            hub: w.hub,
+            quests: d.quests,
+            done: d.done,
+            ws: d.waystones,
+            kills: d.stats.kills ?? 0,
+            dungeons: Object.fromEntries(Object.entries(w.dungeons).map(([k, v]) => [k, { x: v.x, y: v.y, z: v.z, built: v.built, stage: v.stage, boss: v.boss, heart: v.heart, data: v.data }])),
+            morgra: w.morgra
+          });
+          break;
+        }
+      }
+    } catch (e) {
+      log("Debug-Fehler:", String(e));
+    }
+  });
+}
+
 // src/main.ts
 init_ui();
 init_quests();
-system21.beforeEvents.startup.subscribe((ev) => {
+system22.beforeEvents.startup.subscribe((ev) => {
   registerComponents(ev);
   const reg = ev.customCommandRegistry;
   reg.registerCommand({ name: "cdw:buch", description: "\xD6ffnet das Abenteuerbuch (und gibt es zur\xFCck, falls verloren).", permissionLevel: CommandPermissionLevel.Any }, (origin) => {
     const p = origin.sourceEntity;
     if (p?.typeId !== "minecraft:player") return { status: CustomCommandStatus.Failure, message: "Nur f\xFCr Spieler." };
-    system21.run(() => {
+    system22.run(() => {
       ensureBook(p);
       void openBook(p);
     });
@@ -7773,7 +7930,7 @@ system21.beforeEvents.startup.subscribe((ev) => {
   reg.registerCommand({ name: "cdw:rpghud", description: "Schaltet das RPG-HUD an/aus.", permissionLevel: CommandPermissionLevel.Any }, (origin) => {
     const p = origin.sourceEntity;
     if (p?.typeId !== "minecraft:player") return { status: CustomCommandStatus.Failure };
-    system21.run(() => {
+    system22.run(() => {
       const d = pdata(p);
       d.settings.hud = !d.settings.hud;
       markDirty(p);
@@ -7782,7 +7939,7 @@ system21.beforeEvents.startup.subscribe((ev) => {
     return { status: CustomCommandStatus.Success };
   });
   reg.registerCommand({ name: "cdw:test", description: "Selbsttest des RPG-Add-ons (Admin).", permissionLevel: CommandPermissionLevel.GameDirectors }, () => {
-    system21.run(() => void runSelfTest());
+    system22.run(() => void runSelfTest());
     return { status: CustomCommandStatus.Success, message: "Selbsttest gestartet \u2013 siehe Chat/Log." };
   });
 });
@@ -7800,18 +7957,18 @@ function onJoin(p) {
     ensureBook(p);
     if (!wdata().hub) {
       giveItem(p, new ItemStack10("cdw:samen", 1));
-      system21.runTimeout(() => {
+      system22.runTimeout(() => {
         if (isValid(p)) void dialog(p, MAIN[0].intro);
       }, 60);
     } else {
-      system21.runTimeout(() => {
+      system22.runTimeout(() => {
         if (!isValid(p)) return;
         msg(p, "\xA7a\u2726 Willkommen, W\xE4chter! \xA77Der Hain wurde bereits gepflanzt. \xD6ffne dein \xA7eAbenteuerbuch\xA77, um zu beginnen.");
         if (wdata().main.idx >= 1 && !pdata(p).cls) void openClassPick(p);
       }, 60);
     }
   } else if (wdata().main.idx >= 2 && !d.cls) {
-    system21.runTimeout(() => isValid(p) && void openClassPick(p), 80);
+    system22.runTimeout(() => isValid(p) && void openClassPick(p), 80);
   }
   grantPendingMain(p);
   refreshBounties(p);
@@ -7831,42 +7988,46 @@ function init() {
   initEvents();
   initEliteAura();
   initSelfTest();
-  world20.afterEvents.playerSpawn.subscribe((ev) => {
-    if (ev.initialSpawn) system21.runTimeout(() => isValid(ev.player) && onJoin(ev.player), 40);
+  initDebug();
+  world21.afterEvents.playerSpawn.subscribe((ev) => {
+    if (ev.initialSpawn) system22.runTimeout(() => isValid(ev.player) && onJoin(ev.player), 40);
   });
-  world20.afterEvents.playerLeave.subscribe((ev) => {
+  world21.afterEvents.playerLeave.subscribe((ev) => {
     forgetStats(ev.playerId);
     forgetHud(ev.playerId);
   });
-  world20.afterEvents.playerInteractWithEntity.subscribe((ev) => {
+  world21.afterEvents.playerInteractWithEntity.subscribe((ev) => {
     if (ev.target.typeId === "cdw:npc") void onNpcInteract(ev.player, ev.target);
   });
-  world20.afterEvents.entitySpawn.subscribe((ev) => {
+  world21.beforeEvents.playerInteractWithEntity.subscribe((ev) => {
+    if (autotest.on) log("Interaktion", ev.player.name, ev.target.typeId);
+  });
+  world21.afterEvents.entitySpawn.subscribe((ev) => {
     const e = ev.entity;
-    system21.runTimeout(() => {
+    system22.runTimeout(() => {
       if (isValid(e) && isHostile(e)) assignLevel(e);
     }, 2);
   });
-  world20.afterEvents.entityLoad.subscribe((ev) => {
+  world21.afterEvents.entityLoad.subscribe((ev) => {
     const e = ev.entity;
     if (isValid(e) && isHostile(e)) assignLevel(e);
   });
-  system21.runInterval(() => {
+  system22.runInterval(() => {
     try {
       maintainNpcs();
     } catch (e) {
       log("NPC-Pflege:", String(e));
     }
   }, 100);
-  system21.beforeEvents.shutdown.subscribe(() => {
+  system22.beforeEvents.shutdown.subscribe(() => {
     try {
       saveWorld();
     } catch {
     }
   });
-  system21.runTimeout(() => {
+  system22.runTimeout(() => {
     for (const p of players()) onJoin(p);
   }, 20);
   log("Chroniken des Weltenbaums geladen.");
 }
-world20.afterEvents.worldLoad.subscribe(() => init());
+world21.afterEvents.worldLoad.subscribe(() => init());

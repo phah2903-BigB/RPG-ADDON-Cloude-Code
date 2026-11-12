@@ -1,0 +1,7 @@
+{
+  "format_version": "1.21.30",
+  "minecraft:texture_set": {
+    "color": "atem_des_hains",
+    "metalness_emissive_roughness_subsurface": "atem_des_hains_mers"
+  }
+}

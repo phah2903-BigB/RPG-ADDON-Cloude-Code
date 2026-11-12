@@ -21,7 +21,8 @@ import { openBook } from "./ui/book";
 import { openClassPick } from "./ui/classpick";
 import { giveItem } from "./systems/quests";
 import { initSelfTest, runSelfTest } from "./selftest";
-import { dialog } from "./systems/ui";
+import { initDebug } from "./debug";
+import { autotest, dialog } from "./systems/ui";
 import { MAIN } from "./data/quests";
 
 system.beforeEvents.startup.subscribe((ev) => {
@@ -100,6 +101,7 @@ function init(): void {
   initEvents();
   initEliteAura();
   initSelfTest();
+  initDebug();
 
   world.afterEvents.playerSpawn.subscribe((ev) => {
     if (ev.initialSpawn) system.runTimeout(() => isValid(ev.player) && onJoin(ev.player), 40);
@@ -110,6 +112,9 @@ function init(): void {
   });
   world.afterEvents.playerInteractWithEntity.subscribe((ev) => {
     if (ev.target.typeId === "cdw:npc") void onNpcInteract(ev.player, ev.target);
+  });
+  world.beforeEvents.playerInteractWithEntity.subscribe((ev) => {
+    if (autotest.on) log("Interaktion", ev.player.name, ev.target.typeId);
   });
   world.afterEvents.entitySpawn.subscribe((ev) => {
     const e = ev.entity;

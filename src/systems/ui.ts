@@ -4,6 +4,9 @@ import { ActionFormData, ActionFormResponse, FormCancelationReason, MessageFormD
 import { Line, SPEAKERS } from "../data/quests";
 import { npcById } from "../data/mobs";
 
+/** Automatisierte Tests: Formulare überspringen (Dialoge gelten als gelesen, Bestätigungen als „Ja“). */
+export const autotest = { on: false };
+
 async function showWithRetry<T extends { canceled: boolean; cancelationReason?: FormCancelationReason }>(p: Player, show: () => Promise<T>, tries = 12): Promise<T | undefined> {
   for (let i = 0; i < tries; i++) {
     let res: T;
@@ -28,6 +31,7 @@ export interface MenuButton {
 }
 
 export async function menu(p: Player, titleText: string, body: string, buttons: MenuButton[], opts: { back?: () => void | Promise<void> } = {}): Promise<number | undefined> {
+  if (autotest.on) return undefined;
   const f = new ActionFormData().title(titleText);
   if (body) f.body(body);
   for (const b of buttons) f.button(b.text, b.icon);
@@ -44,12 +48,14 @@ export async function menu(p: Player, titleText: string, body: string, buttons: 
 }
 
 export async function confirm(p: Player, titleText: string, body: string, yes = "§aJa", no = "§cNein"): Promise<boolean> {
+  if (autotest.on) return true;
   const f = new MessageFormData().title(titleText).body(body).button1(no).button2(yes);
   const res = await showWithRetry(p, () => f.show(p));
   return !!res && !res.canceled && res.selection === 1;
 }
 
 export async function modal(p: Player, form: ModalFormData): Promise<ModalFormResponse | undefined> {
+  if (autotest.on) return undefined;
   const res = await showWithRetry(p, () => form.show(p));
   if (!res || res.canceled) return undefined;
   return res;
@@ -69,6 +75,7 @@ export function speakerIcon(s: string): string | undefined {
 
 /** Zeigt Dialogzeilen nacheinander. Gibt false zurück, wenn abgebrochen. */
 export async function dialog(p: Player, lines: Line[], finalButton = "§aVerstanden"): Promise<boolean> {
+  if (autotest.on) return true;
   for (let i = 0; i < lines.length; i++) {
     const l = lines[i];
     const last = i === lines.length - 1;
@@ -87,6 +94,7 @@ export async function dialog(p: Player, lines: Line[], finalButton = "§aVerstan
 
 /** Dialog mit Auswahl am Ende. */
 export async function choice(p: Player, l: Line, options: string[]): Promise<number | undefined> {
+  if (autotest.on) return 0;
   const f = new ActionFormData().title(speakerName(l.s)).body(`§f${l.t}\n `);
   for (const o of options) f.button(o);
   const res = await showWithRetry(p, () => f.show(p));

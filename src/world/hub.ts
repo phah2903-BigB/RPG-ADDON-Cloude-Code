@@ -275,6 +275,18 @@ export async function buildHub(stage: number, full: boolean): Promise<void> {
   building = true;
   const dim = world.getDimension("minecraft:overworld");
   const origin = { x: h.x, y: h.y, z: h.z };
+  // Spieler im Baubereich schützen (Gelände wird eingeebnet)
+  const protect = () => {
+    for (const p of dim.getPlayers({ location: origin, maxDistance: 34 })) {
+      try {
+        p.addEffect("slow_falling", 400, { showParticles: false });
+        p.addEffect("resistance", 400, { amplifier: 4, showParticles: false });
+      } catch {
+        /* ignorieren */
+      }
+    }
+  };
+  protect();
   try {
     await withLoadedArea("hub", dim, V.add(origin, { x: -24, y: -5, z: -24 }), V.add(origin, { x: 24, y: 40, z: 24 }), () => {
       return new Promise<void>((resolve) => {
@@ -289,6 +301,16 @@ export async function buildHub(stage: number, full: boolean): Promise<void> {
         buildTree(b, stage);
         placeBlocksForStage(b, stage);
         b.then(() => {
+          protect();
+          for (const p of dim.getPlayers({ location: origin, maxDistance: 24 })) {
+            if (Math.abs(p.location.y - (origin.y + 1)) > 2) {
+              try {
+                p.teleport({ x: origin.x + 0.5, y: origin.y + 1, z: origin.z + 4.5 });
+              } catch {
+                /* ignorieren */
+              }
+            }
+          }
           placeNpcs(stage, origin);
           registerWaystone("hub", { x: origin.x + HUB_SPOTS.waystone.x, y: origin.y + 1, z: origin.z + HUB_SPOTS.waystone.z }, "minecraft:overworld", "Hain des Erwachens");
           for (let i = 0; i < 30; i++) particle(dim, "minecraft:totem_particle", V.add(origin, { x: (Math.random() - 0.5) * 16, y: 2 + Math.random() * 10, z: (Math.random() - 0.5) * 16 }));

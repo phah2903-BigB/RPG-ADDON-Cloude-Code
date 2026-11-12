@@ -453,7 +453,7 @@ export function paintInfo(texW: number, texH: number, cubes: Cube[]): object {
   return {
     texW,
     texH,
-    cubes: cubes.map((cb) => ({ uv: cb.uv, s: cb.s.map((v) => Math.max(1, Math.ceil(v))), mat: cb.mat, mirror: !!cb.mirror })),
+    cubes: cubes.map((cb) => ({ uv: cb.uv, s: cb.s.map((v) => Math.max(1, Math.ceil(v))), mat: cb.mat, mirror: !!cb.mirror, y: cb.o[1] + cb.s[1] / 2 })),
   };
 }
 

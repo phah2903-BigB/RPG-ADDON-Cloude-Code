@@ -1,0 +1,7 @@
+{
+  "format_version": "1.21.30",
+  "minecraft:texture_set": {
+    "color": "elixier_staerke",
+    "metalness_emissive_roughness_subsurface": "elixier_staerke_mers"
+  }
+}

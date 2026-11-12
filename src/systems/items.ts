@@ -121,18 +121,23 @@ export function registerComponents(ev: StartupEvent): void {
       if (!it) return;
       const w = weaponOf(it.typeId);
       if (!w || w.type === "langbogen") return;
-      useWeapon(e.source, it.typeId);
+      const p = e.source;
+      const id = it.typeId;
+      system.run(() => useWeapon(p, id));
     },
   });
   items.registerCustomComponent("cdw:rune", {
     onUse(e, params) {
       const id = (params.params as { ability?: string })?.ability;
-      if (id) castRune(e.source, id);
+      const p = e.source;
+      if (id) system.run(() => castRune(p, id));
     },
   });
   items.registerCustomComponent("cdw:consumable", {
     onConsume(e) {
-      if (e.source.typeId === "minecraft:player") applyConsumable(e.source as Player, e.itemStack.typeId);
+      const src = e.source;
+      const id = e.itemStack.typeId;
+      if (src.typeId === "minecraft:player") system.run(() => applyConsumable(src as Player, id));
     },
   });
   items.registerCustomComponent("cdw:tool", {

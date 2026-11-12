@@ -1,17 +1,37 @@
 // Fähigkeiten (Runen), Waffenfähigkeiten, Projektile, Einzigartige Effekte.
-import { Entity, EntityProjectileComponent, Player, system, Vector3, world, EntityHealthComponent } from "@minecraft/server";
+import { Entity, EntityProjectileComponent, Player, system, Vector3, world } from "@minecraft/server";
 import { ABILITIES, AbilityDef } from "../data/classes";
 import { DamageKind, weaponTypeDef } from "../data/items";
 import { pdata } from "../core/store";
 import { V, isValid, later, msg, particle, rand, ring, sound } from "../core/util";
 import { dealDamage, enemiesNear, forceCrit, kindMultiplier, registerProc, weaponBase } from "./combat";
 import { getEquip, weaponOf } from "./gear";
-import { addTempBuff, getMana, healPct, healRpg, setShield, spendMana, stats } from "./stats";
+import { addTempBuff, getMana, healPct, setShield, spendMana, stats } from "./stats";
 import { EquipmentSlot } from "@minecraft/server";
 import { emit } from "../core/bus";
 
 const abilityById = new Map(ABILITIES.map((a) => [a.id, a]));
 const lastCast = new Map<string, number>();
+/** Eigene Abklingzeiten (die Engine startet die Item-Abklingzeit bereits beim Benutzen). */
+const readyAt = new Map<string, number>();
+function onCooldown(p: Player, key: string): boolean {
+  return (readyAt.get(`${p.id}:${key}`) ?? 0) > now();
+}
+function setCooldown(p: Player, key: string, category: string, ticks: number): void {
+  readyAt.set(`${p.id}:${key}`, now() + ticks);
+  try {
+    p.startItemCooldown(category, ticks);
+  } catch {
+    /* ignorieren */
+  }
+}
+function clearCooldown(p: Player, category: string): void {
+  try {
+    p.startItemCooldown(category, 1);
+  } catch {
+    /* ignorieren */
+  }
+}
 const wolves = new Map<string, { id: string; until: number }>();
 
 function now(): number {
@@ -77,17 +97,21 @@ export function castRune(p: Player, abilityId: string): void {
     msg(p, `§cBenötigt Stufe ${a.level}.`);
     return;
   }
-  if (p.getItemCooldown(`cdw_${a.id}`) > 0) return;
+  if (onCooldown(p, a.id)) return;
   const cost = manaCost(p, a.mana);
   if (getMana(p) < cost) {
     p.onScreenDisplay.setActionBar("§9Nicht genug Mana!");
     sound(p, "note.bass", undefined, 0.6);
+    clearCooldown(p, `cdw_${a.id}`);
     return;
   }
   const ok = runAbility(p, a);
-  if (ok === false) return;
+  if (ok === false) {
+    clearCooldown(p, `cdw_${a.id}`);
+    return;
+  }
   spendMana(p, cost);
-  p.startItemCooldown(`cdw_${a.id}`, cooldownTicks(p, a));
+  setCooldown(p, a.id, `cdw_${a.id}`, cooldownTicks(p, a));
   lastCast.set(p.id, now());
   emit("flag", { key: "ability_used", player: p });
 }
@@ -372,10 +396,11 @@ export function useWeapon(p: Player, typeId: string): void {
   if (!w) return;
   const t = weaponTypeDef(w.type)!;
   const cat = `cdw_w_${t.id}`;
-  if (p.getItemCooldown(cat) > 0) return;
+  if (onCooldown(p, cat)) return;
   const cost = manaCost(p, t.abilityMana);
   if (getMana(p) < cost) {
     p.onScreenDisplay.setActionBar("§9Nicht genug Mana!");
+    clearCooldown(p, cat);
     return;
   }
   const dim = p.dimension;
@@ -398,6 +423,7 @@ export function useWeapon(p: Player, typeId: string): void {
       const target = p.getEntitiesFromViewDirection({ maxDistance: 8, families: ["monster"] })[0]?.entity;
       if (!target) {
         msg(p, "§7Kein Ziel in Sicht.");
+        clearCooldown(p, cat);
         return;
       }
       const behind = V.add(target.location, V.mul(V.flat(target.getViewDirection()), -1.4));
@@ -411,6 +437,7 @@ export function useWeapon(p: Player, typeId: string): void {
       const target = p.getEntitiesFromViewDirection({ maxDistance: 4, families: ["monster"] })[0]?.entity;
       if (!target) {
         msg(p, "§7Kein Ziel in Reichweite.");
+        clearCooldown(p, cat);
         return;
       }
       dealDamage(p, target, pw.dmg * 2);
@@ -451,7 +478,7 @@ export function useWeapon(p: Player, typeId: string): void {
       return;
   }
   spendMana(p, cost);
-  if (t.abilityCd > 0) p.startItemCooldown(cat, Math.max(4, Math.round(t.abilityCd * 20 * (1 - stats(p).cdr * 0.5))));
+  if (t.abilityCd > 0) setCooldown(p, cat, cat, Math.max(4, Math.round(t.abilityCd * 20 * (1 - stats(p).cdr * 0.5))));
 }
 
 /** Langbogen: Loslassen nach Spannen. */
@@ -599,11 +626,3 @@ export function initAbilities(): void {
   system.runInterval(tickWolves, 20);
 }
 
-export function healAmountText(p: Player, rpg: number): string {
-  return `${Math.round(rpg)}`;
-}
-
-export { healRpg };
-export function _unused(e: EntityHealthComponent): void {
-  void e;
-}
