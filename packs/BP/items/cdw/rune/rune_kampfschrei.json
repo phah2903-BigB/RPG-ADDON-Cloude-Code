@@ -1,0 +1,31 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:item": {
+    "description": {
+      "identifier": "cdw:rune_kampfschrei",
+      "menu_category": {
+        "category": "equipment"
+      }
+    },
+    "components": {
+      "minecraft:icon": {
+        "textures": {
+          "default": "cdw_rune_kampfschrei"
+        }
+      },
+      "minecraft:display_name": {
+        "value": "item.cdw.rune_kampfschrei"
+      },
+      "minecraft:max_stack_size": 1,
+      "minecraft:rarity": "rare",
+      "cdw:rune": {
+        "ability": "kampfschrei"
+      },
+      "minecraft:cooldown": {
+        "category": "cdw_kampfschrei",
+        "duration": 30
+      },
+      "minecraft:hand_equipped": false
+    }
+  }
+}

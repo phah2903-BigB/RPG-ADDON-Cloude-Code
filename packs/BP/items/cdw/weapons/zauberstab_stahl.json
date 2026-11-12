@@ -1,0 +1,44 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:item": {
+    "description": {
+      "identifier": "cdw:zauberstab_stahl",
+      "menu_category": {
+        "category": "equipment"
+      }
+    },
+    "components": {
+      "minecraft:icon": {
+        "textures": {
+          "default": "cdw_zauberstab_stahl"
+        }
+      },
+      "minecraft:display_name": {
+        "value": "item.cdw.zauberstab_stahl"
+      },
+      "minecraft:max_stack_size": 1,
+      "minecraft:hand_equipped": true,
+      "minecraft:durability": {
+        "max_durability": 900
+      },
+      "minecraft:damage": {
+        "value": 6
+      },
+      "minecraft:enchantable": {
+        "slot": "sword",
+        "value": 14
+      },
+      "minecraft:tags": {
+        "tags": [
+          "cdw:weapon",
+          "cdw:zauberstab"
+        ]
+      },
+      "cdw:weapon": {},
+      "minecraft:cooldown": {
+        "category": "cdw_w_zauberstab",
+        "duration": 0.6
+      }
+    }
+  }
+}

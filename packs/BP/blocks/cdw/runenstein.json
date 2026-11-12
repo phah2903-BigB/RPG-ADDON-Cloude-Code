@@ -1,0 +1,45 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:block": {
+    "description": {
+      "identifier": "cdw:runenstein",
+      "menu_category": {
+        "category": "none",
+        "is_hidden_in_commands": false
+      },
+      "states": {
+        "cdw:lit": [
+          false,
+          true
+        ]
+      }
+    },
+    "components": {
+      "minecraft:geometry": "minecraft:geometry.full_block",
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "cdw_runenstein",
+          "render_method": "opaque"
+        }
+      },
+      "minecraft:destructible_by_mining": false,
+      "minecraft:destructible_by_explosion": false,
+      "cdw:runestone": {},
+      "minecraft:light_emission": 2
+    },
+    "permutations": [
+      {
+        "condition": "q.block_state('cdw:lit') == true",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "cdw_runenstein_lit",
+              "render_method": "opaque"
+            }
+          },
+          "minecraft:light_emission": 13
+        }
+      }
+    ]
+  }
+}

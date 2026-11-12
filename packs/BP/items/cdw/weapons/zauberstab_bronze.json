@@ -1,0 +1,44 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:item": {
+    "description": {
+      "identifier": "cdw:zauberstab_bronze",
+      "menu_category": {
+        "category": "equipment"
+      }
+    },
+    "components": {
+      "minecraft:icon": {
+        "textures": {
+          "default": "cdw_zauberstab_bronze"
+        }
+      },
+      "minecraft:display_name": {
+        "value": "item.cdw.zauberstab_bronze"
+      },
+      "minecraft:max_stack_size": 1,
+      "minecraft:hand_equipped": true,
+      "minecraft:durability": {
+        "max_durability": 400
+      },
+      "minecraft:damage": {
+        "value": 4
+      },
+      "minecraft:enchantable": {
+        "slot": "sword",
+        "value": 12
+      },
+      "minecraft:tags": {
+        "tags": [
+          "cdw:weapon",
+          "cdw:zauberstab"
+        ]
+      },
+      "cdw:weapon": {},
+      "minecraft:cooldown": {
+        "category": "cdw_w_zauberstab",
+        "duration": 0.6
+      }
+    }
+  }
+}

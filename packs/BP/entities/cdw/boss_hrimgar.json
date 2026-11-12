@@ -1,0 +1,152 @@
+{
+  "format_version": "1.21.0",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "cdw:boss_hrimgar",
+      "is_spawnable": true,
+      "is_summonable": true,
+      "is_experimental": false,
+      "properties": {
+        "cdw:elite": {
+          "type": "bool",
+          "default": false,
+          "client_sync": true
+        }
+      }
+    },
+    "components": {
+      "minecraft:type_family": {
+        "family": [
+          "monster",
+          "cdw_blight",
+          "cdw_boss",
+          "mob"
+        ]
+      },
+      "minecraft:health": {
+        "value": 240,
+        "max": 240
+      },
+      "minecraft:attack": {
+        "damage": 10,
+        "effect_name": "slowness",
+        "effect_duration": 3
+      },
+      "minecraft:collision_box": {
+        "width": 2.2,
+        "height": 4.5
+      },
+      "minecraft:movement": {
+        "value": 0.24
+      },
+      "minecraft:physics": {},
+      "minecraft:pushable": {
+        "is_pushable": false,
+        "is_pushable_by_piston": true
+      },
+      "minecraft:nameable": {},
+      "minecraft:follow_range": {
+        "value": 40,
+        "max": 48
+      },
+      "minecraft:breathable": {
+        "total_supply": 15,
+        "suffocate_time": 0,
+        "breathes_air": true,
+        "breathes_water": true
+      },
+      "minecraft:jump.static": {},
+      "minecraft:behavior.hurt_by_target": {
+        "priority": 1
+      },
+      "minecraft:behavior.nearest_attackable_target": {
+        "priority": 2,
+        "must_see": true,
+        "reselect_targets": true,
+        "within_radius": 24,
+        "must_see_forget_duration": 10,
+        "entity_types": [
+          {
+            "filters": {
+              "any_of": [
+                {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "player"
+                },
+                {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "cdw_ally"
+                }
+              ]
+            },
+            "max_dist": 24
+          }
+        ]
+      },
+      "minecraft:behavior.look_at_player": {
+        "priority": 8,
+        "look_distance": 8
+      },
+      "minecraft:behavior.random_look_around": {
+        "priority": 9
+      },
+      "minecraft:loot": {
+        "table": "loot_tables/cdw/empty.json"
+      },
+      "minecraft:experience_reward": {
+        "on_death": "query.last_hit_by_player ? 60 : 0"
+      },
+      "minecraft:conditional_bandwidth_optimization": {},
+      "minecraft:scale": {
+        "value": 1.7
+      },
+      "minecraft:navigation.walk": {
+        "can_path_over_water": true,
+        "avoid_damage_blocks": true,
+        "can_open_doors": false,
+        "can_walk": true,
+        "is_amphibious": true
+      },
+      "minecraft:movement.basic": {},
+      "minecraft:behavior.float": {
+        "priority": 0
+      },
+      "minecraft:behavior.random_stroll": {
+        "priority": 7,
+        "speed_multiplier": 0.8
+      },
+      "minecraft:behavior.melee_attack": {
+        "priority": 3,
+        "speed_multiplier": 1.2,
+        "track_target": true
+      },
+      "minecraft:boss": {
+        "hud_range": 48,
+        "should_darken_sky": false,
+        "name": "Hrimgar, der Frostkoloss"
+      },
+      "minecraft:knockback_resistance": {
+        "value": 0.85
+      },
+      "minecraft:persistent": {},
+      "minecraft:damage_sensor": {
+        "triggers": [
+          {
+            "cause": "fall",
+            "deals_damage": "no"
+          },
+          {
+            "cause": "suffocation",
+            "deals_damage": "no"
+          },
+          {
+            "cause": "drowning",
+            "deals_damage": "no"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "cdw:boss_glutkoenigin",
+      "materials": {
+        "default": "entity_emissive_alpha"
+      },
+      "textures": {
+        "default": "textures/cdw/entity/scorpion_boss"
+      },
+      "geometry": {
+        "default": "geometry.cdw.scorpion"
+      },
+      "animations": {
+        "idle": "animation.cdw.scorpion.idle",
+        "walk": "animation.cdw.scorpion.walk",
+        "attack": "animation.cdw.scorpion.attack"
+      },
+      "scripts": {
+        "animate": [
+          "idle",
+          {
+            "walk": "q.modified_move_speed > 0.02"
+          },
+          {
+            "attack": "v.attack_time > 0.0"
+          }
+        ]
+      },
+      "render_controllers": [
+        "controller.render.cdw.simple"
+      ],
+      "spawn_egg": {
+        "base_color": "#300818",
+        "overlay_color": "#ffcc33"
+      }
+    }
+  }
+}

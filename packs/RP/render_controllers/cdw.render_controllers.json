@@ -1,0 +1,57 @@
+{
+  "format_version": "1.8.0",
+  "render_controllers": {
+    "controller.render.cdw.simple": {
+      "geometry": "Geometry.default",
+      "materials": [
+        {
+          "*": "Material.default"
+        }
+      ],
+      "textures": [
+        "Texture.default"
+      ]
+    },
+    "controller.render.cdw.mob": {
+      "geometry": "Geometry.default",
+      "materials": [
+        {
+          "*": "Material.default"
+        }
+      ],
+      "textures": [
+        "Texture.default"
+      ],
+      "overlay_color": {
+        "r": 1,
+        "g": 0.75,
+        "b": 0.15,
+        "a": "q.property('cdw:elite') ? 0.22 : 0.0"
+      }
+    },
+    "controller.render.cdw.npc": {
+      "arrays": {
+        "textures": {
+          "Array.skins": [
+            "Texture.sylva",
+            "Texture.fennick",
+            "Texture.kael",
+            "Texture.brom",
+            "Texture.mira",
+            "Texture.oswin",
+            "Texture.morgra"
+          ]
+        }
+      },
+      "geometry": "Geometry.default",
+      "materials": [
+        {
+          "*": "Material.default"
+        }
+      ],
+      "textures": [
+        "Array.skins[q.property('cdw:variant')]"
+      ]
+    }
+  }
+}

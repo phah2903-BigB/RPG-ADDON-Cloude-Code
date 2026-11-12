@@ -1,0 +1,41 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "cdw:wurzelgolem",
+      "materials": {
+        "default": "entity_emissive_alpha"
+      },
+      "textures": {
+        "default": "textures/cdw/entity/rootgolem"
+      },
+      "geometry": {
+        "default": "geometry.cdw.golem"
+      },
+      "animations": {
+        "idle": "animation.cdw.golem.idle",
+        "walk": "animation.cdw.golem.walk",
+        "attack": "animation.cdw.golem.attack"
+      },
+      "scripts": {
+        "animate": [
+          "idle",
+          {
+            "walk": "q.modified_move_speed > 0.02"
+          },
+          {
+            "attack": "v.attack_time > 0.0"
+          }
+        ],
+        "scale": "q.property('cdw:elite') ? 1.2 : 1.0"
+      },
+      "render_controllers": [
+        "controller.render.cdw.mob"
+      ],
+      "spawn_egg": {
+        "base_color": "#555a5f",
+        "overlay_color": "#6b4a2a"
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "cdw:arcane_bolt",
+      "materials": {
+        "default": "entity_emissive_alpha"
+      },
+      "textures": {
+        "default": "textures/cdw/entity/arcane"
+      },
+      "geometry": {
+        "default": "geometry.cdw.orb"
+      },
+      "animations": {
+        "idle": "animation.cdw.orb.idle",
+        "trail": "animation.cdw.proj.trail"
+      },
+      "scripts": {
+        "animate": [
+          "idle",
+          "trail"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.cdw.simple"
+      ],
+      "particle_effects": {
+        "trail": "cdw:trail_arcane"
+      }
+    }
+  }
+}

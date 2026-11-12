@@ -1,0 +1,77 @@
+{
+  "format_version": "1.8.0",
+  "minecraft:spawn_rules": {
+    "description": {
+      "identifier": "cdw:faeulnisgeist",
+      "population_control": "monster"
+    },
+    "conditions": [
+      {
+        "minecraft:difficulty_filter": {
+          "min": "easy",
+          "max": "hard"
+        },
+        "minecraft:weight": {
+          "default": 8
+        },
+        "minecraft:herd": {
+          "min_size": 1,
+          "max_size": 1
+        },
+        "minecraft:biome_filter": {
+          "any_of": [
+            {
+              "test": "has_biome_tag",
+              "operator": "==",
+              "value": "plains"
+            },
+            {
+              "test": "has_biome_tag",
+              "operator": "==",
+              "value": "forest"
+            },
+            {
+              "test": "has_biome_tag",
+              "operator": "==",
+              "value": "taiga"
+            },
+            {
+              "test": "has_biome_tag",
+              "operator": "==",
+              "value": "savanna"
+            },
+            {
+              "test": "has_biome_tag",
+              "operator": "==",
+              "value": "meadow"
+            },
+            {
+              "test": "has_biome_tag",
+              "operator": "==",
+              "value": "birch"
+            },
+            {
+              "test": "has_biome_tag",
+              "operator": "==",
+              "value": "jungle"
+            },
+            {
+              "test": "has_biome_tag",
+              "operator": "==",
+              "value": "cherry_grove"
+            }
+          ]
+        },
+        "minecraft:spawns_on_surface": {},
+        "minecraft:density_limit": {
+          "surface": 2
+        },
+        "minecraft:brightness_filter": {
+          "min": 0,
+          "max": 7,
+          "adjust_for_weather": true
+        }
+      }
+    ]
+  }
+}

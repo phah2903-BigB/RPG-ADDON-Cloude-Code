@@ -1,0 +1,26 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "cdw:r_heiltrank_gross"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "ingredients": [
+      {
+        "item": "cdw:heiltrank"
+      },
+      {
+        "item": "cdw:uraltes_harz"
+      }
+    ],
+    "result": {
+      "item": "cdw:heiltrank_gross",
+      "count": 1
+    },
+    "unlock": {
+      "context": "AlwaysUnlocked"
+    }
+  }
+}

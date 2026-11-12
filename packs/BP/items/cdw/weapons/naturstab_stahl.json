@@ -1,0 +1,44 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:item": {
+    "description": {
+      "identifier": "cdw:naturstab_stahl",
+      "menu_category": {
+        "category": "equipment"
+      }
+    },
+    "components": {
+      "minecraft:icon": {
+        "textures": {
+          "default": "cdw_naturstab_stahl"
+        }
+      },
+      "minecraft:display_name": {
+        "value": "item.cdw.naturstab_stahl"
+      },
+      "minecraft:max_stack_size": 1,
+      "minecraft:hand_equipped": true,
+      "minecraft:durability": {
+        "max_durability": 900
+      },
+      "minecraft:damage": {
+        "value": 5
+      },
+      "minecraft:enchantable": {
+        "slot": "sword",
+        "value": 14
+      },
+      "minecraft:tags": {
+        "tags": [
+          "cdw:weapon",
+          "cdw:naturstab"
+        ]
+      },
+      "cdw:weapon": {},
+      "minecraft:cooldown": {
+        "category": "cdw_w_naturstab",
+        "duration": 0.8
+      }
+    }
+  }
+}

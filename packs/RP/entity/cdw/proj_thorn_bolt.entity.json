@@ -1,0 +1,33 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "cdw:thorn_bolt",
+      "materials": {
+        "default": "entity_emissive_alpha"
+      },
+      "textures": {
+        "default": "textures/cdw/entity/thorn"
+      },
+      "geometry": {
+        "default": "geometry.cdw.thorn"
+      },
+      "animations": {
+        "idle": "animation.cdw.thorn.idle",
+        "trail": "animation.cdw.proj.trail"
+      },
+      "scripts": {
+        "animate": [
+          "idle",
+          "trail"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.cdw.simple"
+      ],
+      "particle_effects": {
+        "trail": "cdw:trail_leaf"
+      }
+    }
+  }
+}

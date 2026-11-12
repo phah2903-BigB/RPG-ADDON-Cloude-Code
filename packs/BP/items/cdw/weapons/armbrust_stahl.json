@@ -1,0 +1,46 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:item": {
+    "description": {
+      "identifier": "cdw:armbrust_stahl",
+      "menu_category": {
+        "category": "equipment",
+        "group": "minecraft:itemGroup.name.bow"
+      }
+    },
+    "components": {
+      "minecraft:icon": {
+        "textures": {
+          "default": "cdw_armbrust_stahl"
+        }
+      },
+      "minecraft:display_name": {
+        "value": "item.cdw.armbrust_stahl"
+      },
+      "minecraft:max_stack_size": 1,
+      "minecraft:hand_equipped": true,
+      "minecraft:durability": {
+        "max_durability": 900
+      },
+      "minecraft:damage": {
+        "value": 9
+      },
+      "minecraft:enchantable": {
+        "slot": "crossbow",
+        "value": 14
+      },
+      "minecraft:tags": {
+        "tags": [
+          "cdw:weapon",
+          "cdw:armbrust"
+        ]
+      },
+      "cdw:weapon": {},
+      "minecraft:cooldown": {
+        "category": "cdw_w_armbrust",
+        "duration": 1.4
+      },
+      "minecraft:use_animation": "crossbow"
+    }
+  }
+}

@@ -1,0 +1,146 @@
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "animation.cdw.scorpion.walk": {
+      "loop": true,
+      "bones": {
+        "leg0r": {
+          "rotation": [
+            0,
+            "math.cos(q.modified_distance_moved * 60 + 0) * 22 * q.modified_move_speed",
+            "math.abs(math.sin(q.modified_distance_moved * 60 + 0)) * 12 * q.modified_move_speed"
+          ]
+        },
+        "leg0l": {
+          "rotation": [
+            0,
+            "math.cos(q.modified_distance_moved * 60 + 180) * 22 * q.modified_move_speed",
+            "math.abs(math.sin(q.modified_distance_moved * 60 + 180)) * 12 * q.modified_move_speed"
+          ]
+        },
+        "leg1r": {
+          "rotation": [
+            0,
+            "math.cos(q.modified_distance_moved * 60 + 60) * 22 * q.modified_move_speed",
+            "math.abs(math.sin(q.modified_distance_moved * 60 + 0)) * 12 * q.modified_move_speed"
+          ]
+        },
+        "leg1l": {
+          "rotation": [
+            0,
+            "math.cos(q.modified_distance_moved * 60 + 240) * 22 * q.modified_move_speed",
+            "math.abs(math.sin(q.modified_distance_moved * 60 + 180)) * 12 * q.modified_move_speed"
+          ]
+        },
+        "leg2r": {
+          "rotation": [
+            0,
+            "math.cos(q.modified_distance_moved * 60 + 120) * 22 * q.modified_move_speed",
+            "math.abs(math.sin(q.modified_distance_moved * 60 + 0)) * 12 * q.modified_move_speed"
+          ]
+        },
+        "leg2l": {
+          "rotation": [
+            0,
+            "math.cos(q.modified_distance_moved * 60 + 300) * 22 * q.modified_move_speed",
+            "math.abs(math.sin(q.modified_distance_moved * 60 + 180)) * 12 * q.modified_move_speed"
+          ]
+        }
+      }
+    },
+    "animation.cdw.scorpion.idle": {
+      "loop": true,
+      "bones": {
+        "tail1": {
+          "rotation": [
+            "math.sin(q.life_time * 80) * 4",
+            0,
+            0
+          ]
+        }
+      }
+    },
+    "animation.cdw.scorpion.attack": {
+      "loop": false,
+      "animation_length": 0.5,
+      "bones": {
+        "tail1": {
+          "rotation": {
+            "0.0": [
+              0,
+              0,
+              0
+            ],
+            "0.2": [
+              -30,
+              0,
+              0
+            ],
+            "0.5": [
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "tail3": {
+          "rotation": {
+            "0.0": [
+              0,
+              0,
+              0
+            ],
+            "0.2": [
+              -40,
+              0,
+              0
+            ],
+            "0.5": [
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "claw_r": {
+          "rotation": {
+            "0.0": [
+              0,
+              0,
+              0
+            ],
+            "0.2": [
+              0,
+              25,
+              0
+            ],
+            "0.5": [
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "claw_l": {
+          "rotation": {
+            "0.0": [
+              0,
+              0,
+              0
+            ],
+            "0.2": [
+              0,
+              -25,
+              0
+            ],
+            "0.5": [
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      }
+    }
+  }
+}

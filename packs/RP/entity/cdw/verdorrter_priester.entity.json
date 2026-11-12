@@ -1,0 +1,41 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "cdw:verdorrter_priester",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/cdw/entity/mummy"
+      },
+      "geometry": {
+        "default": "geometry.cdw.humanoid_thin"
+      },
+      "animations": {
+        "idle": "animation.cdw.humanoid_thin.idle",
+        "walk": "animation.cdw.humanoid_thin.walk",
+        "attack": "animation.cdw.humanoid_thin.attack"
+      },
+      "scripts": {
+        "animate": [
+          "idle",
+          {
+            "walk": "q.modified_move_speed > 0.02"
+          },
+          {
+            "attack": "v.attack_time > 0.0"
+          }
+        ],
+        "scale": "q.property('cdw:elite') ? 1.2 : 1.0"
+      },
+      "render_controllers": [
+        "controller.render.cdw.mob"
+      ],
+      "spawn_egg": {
+        "base_color": "#c9b88a",
+        "overlay_color": "#5a4630"
+      }
+    }
+  }
+}

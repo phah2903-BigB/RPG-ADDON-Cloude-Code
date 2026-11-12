@@ -1,0 +1,41 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "cdw:glutskorpion",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/cdw/entity/scorpion"
+      },
+      "geometry": {
+        "default": "geometry.cdw.scorpion"
+      },
+      "animations": {
+        "idle": "animation.cdw.scorpion.idle",
+        "walk": "animation.cdw.scorpion.walk",
+        "attack": "animation.cdw.scorpion.attack"
+      },
+      "scripts": {
+        "animate": [
+          "idle",
+          {
+            "walk": "q.modified_move_speed > 0.02"
+          },
+          {
+            "attack": "v.attack_time > 0.0"
+          }
+        ],
+        "scale": "q.property('cdw:elite') ? 1.2 : 1.0"
+      },
+      "render_controllers": [
+        "controller.render.cdw.mob"
+      ],
+      "spawn_egg": {
+        "base_color": "#b5651d",
+        "overlay_color": "#3a1f0a"
+      }
+    }
+  }
+}

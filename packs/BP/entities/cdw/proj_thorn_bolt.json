@@ -1,0 +1,52 @@
+{
+  "format_version": "1.21.0",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "cdw:thorn_bolt",
+      "is_spawnable": false,
+      "is_summonable": true,
+      "is_experimental": false,
+      "runtime_identifier": "minecraft:snowball"
+    },
+    "components": {
+      "minecraft:collision_box": {
+        "width": 0.3,
+        "height": 0.3
+      },
+      "minecraft:projectile": {
+        "on_hit": {
+          "impact_damage": {
+            "damage": 1,
+            "knockback": true,
+            "catch_fire": false
+          },
+          "remove_on_hit": {}
+        },
+        "power": 2,
+        "gravity": 0.01,
+        "inertia": 1,
+        "liquid_inertia": 0.9,
+        "uncertainty_base": 0,
+        "uncertainty_multiplier": 0,
+        "anchor": 1,
+        "offset": [
+          0,
+          -0.1,
+          0
+        ],
+        "hit_sound": "random.glass"
+      },
+      "minecraft:physics": {},
+      "minecraft:pushable": {
+        "is_pushable": false,
+        "is_pushable_by_piston": true
+      },
+      "minecraft:despawn": {
+        "despawn_from_distance": {
+          "min_distance": 64,
+          "max_distance": 128
+        }
+      }
+    }
+  }
+}

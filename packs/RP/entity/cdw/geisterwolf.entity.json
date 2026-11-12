@@ -1,0 +1,36 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "cdw:geisterwolf",
+      "materials": {
+        "default": "entity_emissive_alpha"
+      },
+      "textures": {
+        "default": "textures/cdw/entity/spiritwolf"
+      },
+      "geometry": {
+        "default": "geometry.cdw.quad_wolf"
+      },
+      "animations": {
+        "idle": "animation.cdw.quad_wolf.idle",
+        "walk": "animation.cdw.quad_wolf.walk",
+        "attack": "animation.cdw.quad_wolf.attack"
+      },
+      "scripts": {
+        "animate": [
+          "idle",
+          {
+            "walk": "q.modified_move_speed > 0.02"
+          },
+          {
+            "attack": "v.attack_time > 0.0"
+          }
+        ]
+      },
+      "render_controllers": [
+        "controller.render.cdw.simple"
+      ]
+    }
+  }
+}

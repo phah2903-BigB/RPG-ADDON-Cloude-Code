@@ -1,0 +1,51 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:block": {
+    "description": {
+      "identifier": "cdw:wegstein",
+      "menu_category": {
+        "category": "none",
+        "is_hidden_in_commands": false
+      }
+    },
+    "components": {
+      "minecraft:geometry": "geometry.cdw.wegstein",
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "cdw_wegstein",
+          "render_method": "alpha_test"
+        }
+      },
+      "minecraft:collision_box": {
+        "origin": [
+          -6,
+          0,
+          -6
+        ],
+        "size": [
+          12,
+          16,
+          12
+        ]
+      },
+      "minecraft:selection_box": {
+        "origin": [
+          -7,
+          0,
+          -7
+        ],
+        "size": [
+          14,
+          16,
+          14
+        ]
+      },
+      "minecraft:light_emission": 10,
+      "minecraft:light_dampening": 0,
+      "minecraft:map_color": "#5fd3ff",
+      "minecraft:destructible_by_mining": false,
+      "minecraft:destructible_by_explosion": false,
+      "cdw:waystone": {}
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:item": {
+    "description": {
+      "identifier": "cdw:rune_frostlanze",
+      "menu_category": {
+        "category": "equipment"
+      }
+    },
+    "components": {
+      "minecraft:icon": {
+        "textures": {
+          "default": "cdw_rune_frostlanze"
+        }
+      },
+      "minecraft:display_name": {
+        "value": "item.cdw.rune_frostlanze"
+      },
+      "minecraft:max_stack_size": 1,
+      "minecraft:rarity": "rare",
+      "cdw:rune": {
+        "ability": "frostlanze"
+      },
+      "minecraft:cooldown": {
+        "category": "cdw_frostlanze",
+        "duration": 6
+      },
+      "minecraft:hand_equipped": false
+    }
+  }
+}

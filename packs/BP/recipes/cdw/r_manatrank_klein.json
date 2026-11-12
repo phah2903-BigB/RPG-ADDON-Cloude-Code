@@ -1,0 +1,29 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "cdw:r_manatrank_klein"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "ingredients": [
+      {
+        "item": "minecraft:glass_bottle"
+      },
+      {
+        "item": "cdw:faeulnisessenz"
+      },
+      {
+        "item": "minecraft:glow_berries"
+      }
+    ],
+    "result": {
+      "item": "cdw:manatrank_klein",
+      "count": 1
+    },
+    "unlock": {
+      "context": "AlwaysUnlocked"
+    }
+  }
+}

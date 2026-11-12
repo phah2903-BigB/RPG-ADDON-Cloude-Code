@@ -1,0 +1,33 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "cdw:r_wegstein"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      "SRS",
+      "RLR",
+      "SRS"
+    ],
+    "key": {
+      "S": {
+        "item": "minecraft:stone_bricks"
+      },
+      "R": {
+        "item": "cdw:runenstaub"
+      },
+      "L": {
+        "item": "minecraft:lodestone"
+      }
+    },
+    "result": {
+      "item": "cdw:wegstein_eigen"
+    },
+    "unlock": {
+      "context": "AlwaysUnlocked"
+    }
+  }
+}

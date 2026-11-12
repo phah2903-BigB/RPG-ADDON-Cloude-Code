@@ -1,0 +1,33 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "cdw:frost_lance",
+      "materials": {
+        "default": "entity_emissive_alpha"
+      },
+      "textures": {
+        "default": "textures/cdw/entity/frost"
+      },
+      "geometry": {
+        "default": "geometry.cdw.shard"
+      },
+      "animations": {
+        "idle": "animation.cdw.shard.idle",
+        "trail": "animation.cdw.proj.trail"
+      },
+      "scripts": {
+        "animate": [
+          "idle",
+          "trail"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.cdw.simple"
+      ],
+      "particle_effects": {
+        "trail": "cdw:trail_frost"
+      }
+    }
+  }
+}

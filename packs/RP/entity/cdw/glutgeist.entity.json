@@ -1,0 +1,41 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "cdw:glutgeist",
+      "materials": {
+        "default": "entity_emissive_alpha"
+      },
+      "textures": {
+        "default": "textures/cdw/entity/emberwisp"
+      },
+      "geometry": {
+        "default": "geometry.cdw.wisp"
+      },
+      "animations": {
+        "idle": "animation.cdw.wisp.idle",
+        "walk": "animation.cdw.wisp.walk",
+        "attack": "animation.cdw.wisp.attack"
+      },
+      "scripts": {
+        "animate": [
+          "idle",
+          {
+            "walk": "q.modified_move_speed > 0.02"
+          },
+          {
+            "attack": "v.attack_time > 0.0"
+          }
+        ],
+        "scale": "q.property('cdw:elite') ? 1.2 : 1.0"
+      },
+      "render_controllers": [
+        "controller.render.cdw.mob"
+      ],
+      "spawn_egg": {
+        "base_color": "#ff7a1a",
+        "overlay_color": "#ffe066"
+      }
+    }
+  }
+}

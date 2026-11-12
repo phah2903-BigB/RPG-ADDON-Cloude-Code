@@ -1,0 +1,41 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "cdw:kristallspinne",
+      "materials": {
+        "default": "entity_emissive_alpha"
+      },
+      "textures": {
+        "default": "textures/cdw/entity/crystalspider"
+      },
+      "geometry": {
+        "default": "geometry.cdw.spider"
+      },
+      "animations": {
+        "idle": "animation.cdw.spider.idle",
+        "walk": "animation.cdw.spider.walk",
+        "attack": "animation.cdw.spider.attack"
+      },
+      "scripts": {
+        "animate": [
+          "idle",
+          {
+            "walk": "q.modified_move_speed > 0.02"
+          },
+          {
+            "attack": "v.attack_time > 0.0"
+          }
+        ],
+        "scale": "q.property('cdw:elite') ? 1.2 : 1.0"
+      },
+      "render_controllers": [
+        "controller.render.cdw.mob"
+      ],
+      "spawn_egg": {
+        "base_color": "#2a2340",
+        "overlay_color": "#c08aff"
+      }
+    }
+  }
+}

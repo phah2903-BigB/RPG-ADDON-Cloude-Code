@@ -1,0 +1,29 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "cdw:r_heiltrank"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "ingredients": [
+      {
+        "item": "cdw:heiltrank_klein"
+      },
+      {
+        "item": "cdw:moosherz"
+      },
+      {
+        "item": "minecraft:glistering_melon_slice"
+      }
+    ],
+    "result": {
+      "item": "cdw:heiltrank",
+      "count": 1
+    },
+    "unlock": {
+      "context": "AlwaysUnlocked"
+    }
+  }
+}

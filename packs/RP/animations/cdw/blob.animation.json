@@ -1,0 +1,73 @@
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "animation.cdw.blob.walk": {
+      "loop": true,
+      "bones": {
+        "root": {
+          "position": [
+            0,
+            "math.abs(math.sin(q.modified_distance_moved * 25)) * 2.5",
+            0
+          ]
+        },
+        "body": {
+          "scale": [
+            1,
+            "1 + math.sin(q.modified_distance_moved * 50) * 0.08",
+            1
+          ]
+        }
+      }
+    },
+    "animation.cdw.blob.idle": {
+      "loop": true,
+      "bones": {
+        "body": {
+          "scale": [
+            "1 + math.sin(q.life_time * 150) * 0.03",
+            "1 - math.sin(q.life_time * 150) * 0.03",
+            "1 + math.sin(q.life_time * 150) * 0.03"
+          ]
+        },
+        "sprout": {
+          "rotation": [
+            0,
+            0,
+            "math.sin(q.life_time * 100) * 8"
+          ]
+        }
+      }
+    },
+    "animation.cdw.blob.attack": {
+      "loop": false,
+      "animation_length": 0.4,
+      "bones": {
+        "body": {
+          "scale": {
+            "0.0": [
+              1,
+              1,
+              1
+            ],
+            "0.15": [
+              1.15,
+              0.85,
+              1.15
+            ],
+            "0.3": [
+              0.95,
+              1.1,
+              0.95
+            ],
+            "0.4": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      }
+    }
+  }
+}

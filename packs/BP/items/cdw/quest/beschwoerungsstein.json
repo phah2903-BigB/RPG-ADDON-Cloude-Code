@@ -1,0 +1,25 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:item": {
+    "description": {
+      "identifier": "cdw:beschwoerungsstein",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": {
+        "textures": {
+          "default": "cdw_beschwoerungsstein"
+        }
+      },
+      "minecraft:display_name": {
+        "value": "item.cdw.beschwoerungsstein"
+      },
+      "minecraft:max_stack_size": 16,
+      "minecraft:glint": true,
+      "minecraft:rarity": "epic",
+      "cdw:tool": {}
+    }
+  }
+}

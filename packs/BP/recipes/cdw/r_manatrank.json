@@ -1,0 +1,26 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "cdw:r_manatrank"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "ingredients": [
+      {
+        "item": "cdw:manatrank_klein"
+      },
+      {
+        "item": "cdw:schattenkristall"
+      }
+    ],
+    "result": {
+      "item": "cdw:manatrank",
+      "count": 1
+    },
+    "unlock": {
+      "context": "AlwaysUnlocked"
+    }
+  }
+}

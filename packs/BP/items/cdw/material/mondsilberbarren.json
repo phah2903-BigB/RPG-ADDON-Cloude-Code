@@ -1,0 +1,22 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:item": {
+    "description": {
+      "identifier": "cdw:mondsilberbarren",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": {
+        "textures": {
+          "default": "cdw_mondsilberbarren"
+        }
+      },
+      "minecraft:display_name": {
+        "value": "item.cdw.mondsilberbarren"
+      },
+      "minecraft:max_stack_size": 64
+    }
+  }
+}

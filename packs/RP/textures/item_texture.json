@@ -1,0 +1,366 @@
+{
+  "resource_pack_name": "cdw",
+  "texture_name": "atlas.items",
+  "texture_data": {
+    "cdw_schwert_bronze": {
+      "textures": "textures/cdw/items/schwert_bronze"
+    },
+    "cdw_schwert_stahl": {
+      "textures": "textures/cdw/items/schwert_stahl"
+    },
+    "cdw_schwert_mondsilber": {
+      "textures": "textures/cdw/items/schwert_mondsilber"
+    },
+    "cdw_schwert_runenobsidian": {
+      "textures": "textures/cdw/items/schwert_runenobsidian"
+    },
+    "cdw_zweihaender_bronze": {
+      "textures": "textures/cdw/items/zweihaender_bronze"
+    },
+    "cdw_zweihaender_stahl": {
+      "textures": "textures/cdw/items/zweihaender_stahl"
+    },
+    "cdw_zweihaender_mondsilber": {
+      "textures": "textures/cdw/items/zweihaender_mondsilber"
+    },
+    "cdw_zweihaender_runenobsidian": {
+      "textures": "textures/cdw/items/zweihaender_runenobsidian"
+    },
+    "cdw_dolch_bronze": {
+      "textures": "textures/cdw/items/dolch_bronze"
+    },
+    "cdw_dolch_stahl": {
+      "textures": "textures/cdw/items/dolch_stahl"
+    },
+    "cdw_dolch_mondsilber": {
+      "textures": "textures/cdw/items/dolch_mondsilber"
+    },
+    "cdw_dolch_runenobsidian": {
+      "textures": "textures/cdw/items/dolch_runenobsidian"
+    },
+    "cdw_streitaxt_bronze": {
+      "textures": "textures/cdw/items/streitaxt_bronze"
+    },
+    "cdw_streitaxt_stahl": {
+      "textures": "textures/cdw/items/streitaxt_stahl"
+    },
+    "cdw_streitaxt_mondsilber": {
+      "textures": "textures/cdw/items/streitaxt_mondsilber"
+    },
+    "cdw_streitaxt_runenobsidian": {
+      "textures": "textures/cdw/items/streitaxt_runenobsidian"
+    },
+    "cdw_kriegshammer_bronze": {
+      "textures": "textures/cdw/items/kriegshammer_bronze"
+    },
+    "cdw_kriegshammer_stahl": {
+      "textures": "textures/cdw/items/kriegshammer_stahl"
+    },
+    "cdw_kriegshammer_mondsilber": {
+      "textures": "textures/cdw/items/kriegshammer_mondsilber"
+    },
+    "cdw_kriegshammer_runenobsidian": {
+      "textures": "textures/cdw/items/kriegshammer_runenobsidian"
+    },
+    "cdw_speer_bronze": {
+      "textures": "textures/cdw/items/speer_bronze"
+    },
+    "cdw_speer_stahl": {
+      "textures": "textures/cdw/items/speer_stahl"
+    },
+    "cdw_speer_mondsilber": {
+      "textures": "textures/cdw/items/speer_mondsilber"
+    },
+    "cdw_speer_runenobsidian": {
+      "textures": "textures/cdw/items/speer_runenobsidian"
+    },
+    "cdw_langbogen_bronze": {
+      "textures": "textures/cdw/items/langbogen_bronze"
+    },
+    "cdw_langbogen_stahl": {
+      "textures": "textures/cdw/items/langbogen_stahl"
+    },
+    "cdw_langbogen_mondsilber": {
+      "textures": "textures/cdw/items/langbogen_mondsilber"
+    },
+    "cdw_langbogen_runenobsidian": {
+      "textures": "textures/cdw/items/langbogen_runenobsidian"
+    },
+    "cdw_armbrust_bronze": {
+      "textures": "textures/cdw/items/armbrust_bronze"
+    },
+    "cdw_armbrust_stahl": {
+      "textures": "textures/cdw/items/armbrust_stahl"
+    },
+    "cdw_armbrust_mondsilber": {
+      "textures": "textures/cdw/items/armbrust_mondsilber"
+    },
+    "cdw_armbrust_runenobsidian": {
+      "textures": "textures/cdw/items/armbrust_runenobsidian"
+    },
+    "cdw_zauberstab_bronze": {
+      "textures": "textures/cdw/items/zauberstab_bronze"
+    },
+    "cdw_zauberstab_stahl": {
+      "textures": "textures/cdw/items/zauberstab_stahl"
+    },
+    "cdw_zauberstab_mondsilber": {
+      "textures": "textures/cdw/items/zauberstab_mondsilber"
+    },
+    "cdw_zauberstab_runenobsidian": {
+      "textures": "textures/cdw/items/zauberstab_runenobsidian"
+    },
+    "cdw_naturstab_bronze": {
+      "textures": "textures/cdw/items/naturstab_bronze"
+    },
+    "cdw_naturstab_stahl": {
+      "textures": "textures/cdw/items/naturstab_stahl"
+    },
+    "cdw_naturstab_mondsilber": {
+      "textures": "textures/cdw/items/naturstab_mondsilber"
+    },
+    "cdw_naturstab_runenobsidian": {
+      "textures": "textures/cdw/items/naturstab_runenobsidian"
+    },
+    "cdw_ylvaris_zorn": {
+      "textures": "textures/cdw/items/ylvaris_zorn"
+    },
+    "cdw_fluesterklinge": {
+      "textures": "textures/cdw/items/fluesterklinge"
+    },
+    "cdw_sternenfall": {
+      "textures": "textures/cdw/items/sternenfall"
+    },
+    "cdw_herz_des_winters": {
+      "textures": "textures/cdw/items/herz_des_winters"
+    },
+    "cdw_wurzelbrecher": {
+      "textures": "textures/cdw/items/wurzelbrecher"
+    },
+    "cdw_atem_des_hains": {
+      "textures": "textures/cdw/items/atem_des_hains"
+    },
+    "cdw_eichenwacht_head": {
+      "textures": "textures/cdw/items/eichenwacht_head"
+    },
+    "cdw_eichenwacht_chest": {
+      "textures": "textures/cdw/items/eichenwacht_chest"
+    },
+    "cdw_eichenwacht_legs": {
+      "textures": "textures/cdw/items/eichenwacht_legs"
+    },
+    "cdw_eichenwacht_feet": {
+      "textures": "textures/cdw/items/eichenwacht_feet"
+    },
+    "cdw_pirschleder_head": {
+      "textures": "textures/cdw/items/pirschleder_head"
+    },
+    "cdw_pirschleder_chest": {
+      "textures": "textures/cdw/items/pirschleder_chest"
+    },
+    "cdw_pirschleder_legs": {
+      "textures": "textures/cdw/items/pirschleder_legs"
+    },
+    "cdw_pirschleder_feet": {
+      "textures": "textures/cdw/items/pirschleder_feet"
+    },
+    "cdw_sternengewebe_head": {
+      "textures": "textures/cdw/items/sternengewebe_head"
+    },
+    "cdw_sternengewebe_chest": {
+      "textures": "textures/cdw/items/sternengewebe_chest"
+    },
+    "cdw_sternengewebe_legs": {
+      "textures": "textures/cdw/items/sternengewebe_legs"
+    },
+    "cdw_sternengewebe_feet": {
+      "textures": "textures/cdw/items/sternengewebe_feet"
+    },
+    "cdw_rindenkleid_head": {
+      "textures": "textures/cdw/items/rindenkleid_head"
+    },
+    "cdw_rindenkleid_chest": {
+      "textures": "textures/cdw/items/rindenkleid_chest"
+    },
+    "cdw_rindenkleid_legs": {
+      "textures": "textures/cdw/items/rindenkleid_legs"
+    },
+    "cdw_rindenkleid_feet": {
+      "textures": "textures/cdw/items/rindenkleid_feet"
+    },
+    "cdw_weltenbaum_head": {
+      "textures": "textures/cdw/items/weltenbaum_head"
+    },
+    "cdw_weltenbaum_chest": {
+      "textures": "textures/cdw/items/weltenbaum_chest"
+    },
+    "cdw_weltenbaum_legs": {
+      "textures": "textures/cdw/items/weltenbaum_legs"
+    },
+    "cdw_weltenbaum_feet": {
+      "textures": "textures/cdw/items/weltenbaum_feet"
+    },
+    "cdw_talisman_leben": {
+      "textures": "textures/cdw/items/talisman_leben"
+    },
+    "cdw_talisman_macht": {
+      "textures": "textures/cdw/items/talisman_macht"
+    },
+    "cdw_talisman_weisheit": {
+      "textures": "textures/cdw/items/talisman_weisheit"
+    },
+    "cdw_talisman_glueck": {
+      "textures": "textures/cdw/items/talisman_glueck"
+    },
+    "cdw_talisman_wind": {
+      "textures": "textures/cdw/items/talisman_wind"
+    },
+    "cdw_talisman_waechter": {
+      "textures": "textures/cdw/items/talisman_waechter"
+    },
+    "cdw_heiltrank_klein": {
+      "textures": "textures/cdw/items/heiltrank_klein"
+    },
+    "cdw_heiltrank": {
+      "textures": "textures/cdw/items/heiltrank"
+    },
+    "cdw_heiltrank_gross": {
+      "textures": "textures/cdw/items/heiltrank_gross"
+    },
+    "cdw_manatrank_klein": {
+      "textures": "textures/cdw/items/manatrank_klein"
+    },
+    "cdw_manatrank": {
+      "textures": "textures/cdw/items/manatrank"
+    },
+    "cdw_manatrank_gross": {
+      "textures": "textures/cdw/items/manatrank_gross"
+    },
+    "cdw_elixier_staerke": {
+      "textures": "textures/cdw/items/elixier_staerke"
+    },
+    "cdw_elixier_zaehigkeit": {
+      "textures": "textures/cdw/items/elixier_zaehigkeit"
+    },
+    "cdw_elixier_weisheit": {
+      "textures": "textures/cdw/items/elixier_weisheit"
+    },
+    "cdw_elixier_eile": {
+      "textures": "textures/cdw/items/elixier_eile"
+    },
+    "cdw_rueckkehrschriftrolle": {
+      "textures": "textures/cdw/items/rueckkehrschriftrolle"
+    },
+    "cdw_faeulnisessenz": {
+      "textures": "textures/cdw/items/faeulnisessenz"
+    },
+    "cdw_moosherz": {
+      "textures": "textures/cdw/items/moosherz"
+    },
+    "cdw_dornenfang": {
+      "textures": "textures/cdw/items/dornenfang"
+    },
+    "cdw_moorschleim": {
+      "textures": "textures/cdw/items/moorschleim"
+    },
+    "cdw_skorpionstachel": {
+      "textures": "textures/cdw/items/skorpionstachel"
+    },
+    "cdw_frostsplitter": {
+      "textures": "textures/cdw/items/frostsplitter"
+    },
+    "cdw_schattenkristall": {
+      "textures": "textures/cdw/items/schattenkristall"
+    },
+    "cdw_runenstaub": {
+      "textures": "textures/cdw/items/runenstaub"
+    },
+    "cdw_mondsilberbarren": {
+      "textures": "textures/cdw/items/mondsilberbarren"
+    },
+    "cdw_uraltes_harz": {
+      "textures": "textures/cdw/items/uraltes_harz"
+    },
+    "cdw_samen": {
+      "textures": "textures/cdw/items/samen"
+    },
+    "cdw_buch": {
+      "textures": "textures/cdw/items/buch"
+    },
+    "cdw_verwelkte_seite": {
+      "textures": "textures/cdw/items/verwelkte_seite"
+    },
+    "cdw_wurzelsplitter": {
+      "textures": "textures/cdw/items/wurzelsplitter"
+    },
+    "cdw_kaels_amulett": {
+      "textures": "textures/cdw/items/kaels_amulett"
+    },
+    "cdw_muenzbeutel": {
+      "textures": "textures/cdw/items/muenzbeutel"
+    },
+    "cdw_beschwoerungsstein": {
+      "textures": "textures/cdw/items/beschwoerungsstein"
+    },
+    "cdw_rune_wirbelschlag": {
+      "textures": "textures/cdw/items/rune_wirbelschlag"
+    },
+    "cdw_rune_schildwall": {
+      "textures": "textures/cdw/items/rune_schildwall"
+    },
+    "cdw_rune_sturmangriff": {
+      "textures": "textures/cdw/items/rune_sturmangriff"
+    },
+    "cdw_rune_kampfschrei": {
+      "textures": "textures/cdw/items/rune_kampfschrei"
+    },
+    "cdw_rune_titanenhieb": {
+      "textures": "textures/cdw/items/rune_titanenhieb"
+    },
+    "cdw_rune_salve": {
+      "textures": "textures/cdw/items/rune_salve"
+    },
+    "cdw_rune_rueckwaertssprung": {
+      "textures": "textures/cdw/items/rune_rueckwaertssprung"
+    },
+    "cdw_rune_giftpfeil": {
+      "textures": "textures/cdw/items/rune_giftpfeil"
+    },
+    "cdw_rune_falkenauge": {
+      "textures": "textures/cdw/items/rune_falkenauge"
+    },
+    "cdw_rune_pfeilregen": {
+      "textures": "textures/cdw/items/rune_pfeilregen"
+    },
+    "cdw_rune_feuerball": {
+      "textures": "textures/cdw/items/rune_feuerball"
+    },
+    "cdw_rune_frostlanze": {
+      "textures": "textures/cdw/items/rune_frostlanze"
+    },
+    "cdw_rune_blinzeln": {
+      "textures": "textures/cdw/items/rune_blinzeln"
+    },
+    "cdw_rune_arkanschild": {
+      "textures": "textures/cdw/items/rune_arkanschild"
+    },
+    "cdw_rune_meteor": {
+      "textures": "textures/cdw/items/rune_meteor"
+    },
+    "cdw_rune_heilbluete": {
+      "textures": "textures/cdw/items/rune_heilbluete"
+    },
+    "cdw_rune_dornenranken": {
+      "textures": "textures/cdw/items/rune_dornenranken"
+    },
+    "cdw_rune_wolfsgeist": {
+      "textures": "textures/cdw/items/rune_wolfsgeist"
+    },
+    "cdw_rune_rindenhaut": {
+      "textures": "textures/cdw/items/rune_rindenhaut"
+    },
+    "cdw_rune_segen": {
+      "textures": "textures/cdw/items/rune_segen"
+    }
+  }
+}

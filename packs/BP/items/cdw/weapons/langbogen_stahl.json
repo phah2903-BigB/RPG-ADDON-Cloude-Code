@@ -1,0 +1,46 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:item": {
+    "description": {
+      "identifier": "cdw:langbogen_stahl",
+      "menu_category": {
+        "category": "equipment",
+        "group": "minecraft:itemGroup.name.bow"
+      }
+    },
+    "components": {
+      "minecraft:icon": {
+        "textures": {
+          "default": "cdw_langbogen_stahl"
+        }
+      },
+      "minecraft:display_name": {
+        "value": "item.cdw.langbogen_stahl"
+      },
+      "minecraft:max_stack_size": 1,
+      "minecraft:hand_equipped": true,
+      "minecraft:durability": {
+        "max_durability": 900
+      },
+      "minecraft:damage": {
+        "value": 7
+      },
+      "minecraft:enchantable": {
+        "slot": "bow",
+        "value": 14
+      },
+      "minecraft:tags": {
+        "tags": [
+          "cdw:weapon",
+          "cdw:langbogen"
+        ]
+      },
+      "cdw:weapon": {},
+      "minecraft:use_modifiers": {
+        "use_duration": 3600,
+        "movement_modifier": 0.35
+      },
+      "minecraft:use_animation": "bow"
+    }
+  }
+}

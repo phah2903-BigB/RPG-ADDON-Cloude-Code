@@ -1,0 +1,144 @@
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "animation.cdw.druid.walk": {
+      "loop": true,
+      "bones": {
+        "leg_r": {
+          "rotation": [
+            "math.cos(q.modified_distance_moved * 38.17) * 45 * q.modified_move_speed",
+            0,
+            0
+          ]
+        },
+        "leg_l": {
+          "rotation": [
+            "math.cos(q.modified_distance_moved * 38.17 + 180) * 45 * q.modified_move_speed",
+            0,
+            0
+          ]
+        },
+        "arm_r": {
+          "rotation": [
+            "math.cos(q.modified_distance_moved * 38.17 + 180) * 36 * q.modified_move_speed",
+            0,
+            0
+          ]
+        },
+        "arm_l": {
+          "rotation": [
+            "math.cos(q.modified_distance_moved * 38.17) * 36 * q.modified_move_speed",
+            0,
+            0
+          ]
+        }
+      }
+    },
+    "animation.cdw.druid.idle": {
+      "loop": true,
+      "bones": {
+        "head": {
+          "rotation": [
+            "q.target_x_rotation * 0.6",
+            "q.target_y_rotation * 0.6",
+            0
+          ]
+        },
+        "body": {
+          "rotation": [
+            "math.sin(q.life_time * 90) * 1.5",
+            0,
+            0
+          ]
+        },
+        "arm_r": {
+          "rotation": [
+            0,
+            0,
+            "math.sin(q.life_time * 80) * 3 + 3"
+          ]
+        },
+        "arm_l": {
+          "rotation": [
+            0,
+            0,
+            "-math.sin(q.life_time * 80) * 3 - 3"
+          ]
+        }
+      }
+    },
+    "animation.cdw.druid.attack": {
+      "loop": false,
+      "animation_length": 0.5,
+      "bones": {
+        "arm_r": {
+          "rotation": {
+            "0.0": [
+              0,
+              0,
+              0
+            ],
+            "0.15": [
+              -110,
+              10,
+              0
+            ],
+            "0.3": [
+              20,
+              0,
+              0
+            ],
+            "0.5": [
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "arm_l": {
+          "rotation": {
+            "0.0": [
+              0,
+              0,
+              0
+            ],
+            "0.15": [
+              -90,
+              -10,
+              0
+            ],
+            "0.3": [
+              15,
+              0,
+              0
+            ],
+            "0.5": [
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "body": {
+          "rotation": {
+            "0.0": [
+              0,
+              0,
+              0
+            ],
+            "0.2": [
+              8,
+              0,
+              0
+            ],
+            "0.5": [
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      }
+    }
+  }
+}

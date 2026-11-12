@@ -1,0 +1,41 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "cdw:schlammkroete",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/cdw/entity/toad"
+      },
+      "geometry": {
+        "default": "geometry.cdw.toad"
+      },
+      "animations": {
+        "idle": "animation.cdw.toad.idle",
+        "walk": "animation.cdw.toad.walk",
+        "attack": "animation.cdw.toad.attack"
+      },
+      "scripts": {
+        "animate": [
+          "idle",
+          {
+            "walk": "q.modified_move_speed > 0.02"
+          },
+          {
+            "attack": "v.attack_time > 0.0"
+          }
+        ],
+        "scale": "q.property('cdw:elite') ? 1.2 : 1.0"
+      },
+      "render_controllers": [
+        "controller.render.cdw.mob"
+      ],
+      "spawn_egg": {
+        "base_color": "#5a6b2f",
+        "overlay_color": "#c2b26a"
+      }
+    }
+  }
+}

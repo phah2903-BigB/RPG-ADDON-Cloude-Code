@@ -1,0 +1,63 @@
+{
+  "format_version": "1.12.0",
+  "minecraft:geometry": [
+    {
+      "description": {
+        "identifier": "geometry.cdw.arrow",
+        "texture_width": 32,
+        "texture_height": 16,
+        "visible_bounds_width": 1.6,
+        "visible_bounds_height": 1.6,
+        "visible_bounds_offset": [
+          0,
+          0.3,
+          0
+        ]
+      },
+      "bones": [
+        {
+          "name": "root",
+          "pivot": [
+            0,
+            1,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -0.5,
+                0.5,
+                -5
+              ],
+              "size": [
+                1,
+                1,
+                10
+              ],
+              "uv": [
+                0,
+                0
+              ]
+            },
+            {
+              "origin": [
+                -1.5,
+                0,
+                3
+              ],
+              "size": [
+                3,
+                2,
+                2
+              ],
+              "uv": [
+                22,
+                0
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

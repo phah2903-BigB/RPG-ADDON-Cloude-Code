@@ -1,0 +1,46 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:item": {
+    "description": {
+      "identifier": "cdw:atem_des_hains",
+      "menu_category": {
+        "category": "equipment"
+      }
+    },
+    "components": {
+      "minecraft:icon": {
+        "textures": {
+          "default": "cdw_atem_des_hains"
+        }
+      },
+      "minecraft:display_name": {
+        "value": "item.cdw.atem_des_hains"
+      },
+      "minecraft:max_stack_size": 1,
+      "minecraft:hand_equipped": true,
+      "minecraft:durability": {
+        "max_durability": 4000
+      },
+      "minecraft:damage": {
+        "value": 15
+      },
+      "minecraft:enchantable": {
+        "slot": "sword",
+        "value": 20
+      },
+      "minecraft:tags": {
+        "tags": [
+          "cdw:weapon",
+          "cdw:naturstab"
+        ]
+      },
+      "cdw:weapon": {},
+      "minecraft:glint": true,
+      "minecraft:rarity": "epic",
+      "minecraft:cooldown": {
+        "category": "cdw_w_naturstab",
+        "duration": 0.8
+      }
+    }
+  }
+}

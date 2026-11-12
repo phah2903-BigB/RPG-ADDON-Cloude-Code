@@ -1,0 +1,41 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "cdw:moorschlurfer",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/cdw/entity/bog"
+      },
+      "geometry": {
+        "default": "geometry.cdw.humanoid_big"
+      },
+      "animations": {
+        "idle": "animation.cdw.humanoid_big.idle",
+        "walk": "animation.cdw.humanoid_big.walk",
+        "attack": "animation.cdw.humanoid_big.attack"
+      },
+      "scripts": {
+        "animate": [
+          "idle",
+          {
+            "walk": "q.modified_move_speed > 0.02"
+          },
+          {
+            "attack": "v.attack_time > 0.0"
+          }
+        ],
+        "scale": "q.property('cdw:elite') ? 1.2 : 1.0"
+      },
+      "render_controllers": [
+        "controller.render.cdw.mob"
+      ],
+      "spawn_egg": {
+        "base_color": "#3d4a2a",
+        "overlay_color": "#8a7a45"
+      }
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "cdw:npc",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "sylva": "textures/cdw/entity/npc_sylva",
+        "fennick": "textures/cdw/entity/npc_fennick",
+        "kael": "textures/cdw/entity/npc_kael",
+        "brom": "textures/cdw/entity/npc_brom",
+        "mira": "textures/cdw/entity/npc_mira",
+        "oswin": "textures/cdw/entity/npc_oswin",
+        "morgra": "textures/cdw/entity/npc_morgra"
+      },
+      "geometry": {
+        "default": "geometry.cdw.npc"
+      },
+      "animations": {
+        "idle": "animation.cdw.npc.idle",
+        "walk": "animation.cdw.npc.walk",
+        "attack": "animation.cdw.npc.attack"
+      },
+      "scripts": {
+        "animate": [
+          "idle",
+          {
+            "walk": "q.modified_move_speed > 0.02"
+          },
+          {
+            "attack": "v.attack_time > 0.0"
+          }
+        ]
+      },
+      "render_controllers": [
+        "controller.render.cdw.npc"
+      ]
+    }
+  }
+}

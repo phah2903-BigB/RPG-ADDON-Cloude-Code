@@ -1,0 +1,41 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "cdw:goblin_schuetze",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/cdw/entity/goblin_archer"
+      },
+      "geometry": {
+        "default": "geometry.cdw.humanoid_small"
+      },
+      "animations": {
+        "idle": "animation.cdw.humanoid_small.idle",
+        "walk": "animation.cdw.humanoid_small.walk",
+        "attack": "animation.cdw.humanoid_small.attack"
+      },
+      "scripts": {
+        "animate": [
+          "idle",
+          {
+            "walk": "q.modified_move_speed > 0.02"
+          },
+          {
+            "attack": "v.attack_time > 0.0"
+          }
+        ],
+        "scale": "q.property('cdw:elite') ? 1.2 : 1.0"
+      },
+      "render_controllers": [
+        "controller.render.cdw.mob"
+      ],
+      "spawn_egg": {
+        "base_color": "#5f7f2a",
+        "overlay_color": "#4a6a8a"
+      }
+    }
+  }
+}

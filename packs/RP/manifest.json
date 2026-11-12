@@ -1,0 +1,38 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "Chroniken des Weltenbaums §7(Ressourcen)",
+    "description": "Modelle, Texturen und Texte. Passend zu Natur Fantasy 64x.",
+    "uuid": "9fee1e39-d737-49b3-868f-c53eb7f2ef7c",
+    "version": [
+      1,
+      0,
+      0
+    ],
+    "min_engine_version": [
+      1,
+      26,
+      30
+    ]
+  },
+  "modules": [
+    {
+      "type": "resources",
+      "uuid": "938d7569-a48c-4a66-8b93-53378ee4e2a5",
+      "version": [
+        1,
+        0,
+        0
+      ]
+    }
+  ],
+  "capabilities": [
+    "pbr"
+  ],
+  "metadata": {
+    "authors": [
+      "Chroniken des Weltenbaums"
+    ],
+    "product_type": "addon"
+  }
+}

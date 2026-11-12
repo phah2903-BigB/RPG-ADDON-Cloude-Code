@@ -1,0 +1,31 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:item": {
+    "description": {
+      "identifier": "cdw:rune_segen",
+      "menu_category": {
+        "category": "equipment"
+      }
+    },
+    "components": {
+      "minecraft:icon": {
+        "textures": {
+          "default": "cdw_rune_segen"
+        }
+      },
+      "minecraft:display_name": {
+        "value": "item.cdw.rune_segen"
+      },
+      "minecraft:max_stack_size": 1,
+      "minecraft:rarity": "epic",
+      "cdw:rune": {
+        "ability": "segen"
+      },
+      "minecraft:cooldown": {
+        "category": "cdw_segen",
+        "duration": 90
+      },
+      "minecraft:hand_equipped": false
+    }
+  }
+}

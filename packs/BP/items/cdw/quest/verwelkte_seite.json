@@ -1,0 +1,23 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:item": {
+    "description": {
+      "identifier": "cdw:verwelkte_seite",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": {
+        "textures": {
+          "default": "cdw_verwelkte_seite"
+        }
+      },
+      "minecraft:display_name": {
+        "value": "item.cdw.verwelkte_seite"
+      },
+      "minecraft:max_stack_size": 16,
+      "cdw:tool": {}
+    }
+  }
+}

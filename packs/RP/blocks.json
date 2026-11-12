@@ -1,0 +1,31 @@
+{
+  "format_version": [
+    1,
+    1,
+    0
+  ],
+  "cdw:wegstein": {
+    "sound": "stone"
+  },
+  "cdw:wegstein_eigen": {
+    "sound": "stone"
+  },
+  "cdw:kopfgeldbrett": {
+    "sound": "wood"
+  },
+  "cdw:altar": {
+    "sound": "stone"
+  },
+  "cdw:runenstein": {
+    "sound": "stone"
+  },
+  "cdw:wurzelherz": {
+    "sound": "stone"
+  },
+  "cdw:barriere": {
+    "sound": "stone"
+  },
+  "cdw:faeulnis": {
+    "sound": "slime"
+  }
+}

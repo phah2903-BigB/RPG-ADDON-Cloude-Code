@@ -1,0 +1,33 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:item": {
+    "description": {
+      "identifier": "cdw:heiltrank",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": {
+        "textures": {
+          "default": "cdw_heiltrank"
+        }
+      },
+      "minecraft:display_name": {
+        "value": "item.cdw.heiltrank"
+      },
+      "minecraft:max_stack_size": 16,
+      "minecraft:food": {
+        "can_always_eat": true,
+        "nutrition": 0,
+        "saturation_modifier": 0
+      },
+      "minecraft:use_modifiers": {
+        "use_duration": 0.9,
+        "movement_modifier": 0.6
+      },
+      "minecraft:use_animation": "drink",
+      "cdw:consumable": {}
+    }
+  }
+}

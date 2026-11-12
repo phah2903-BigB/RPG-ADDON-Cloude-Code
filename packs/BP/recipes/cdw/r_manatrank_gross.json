@@ -1,0 +1,26 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "cdw:r_manatrank_gross"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "ingredients": [
+      {
+        "item": "cdw:manatrank"
+      },
+      {
+        "item": "cdw:uraltes_harz"
+      }
+    ],
+    "result": {
+      "item": "cdw:manatrank_gross",
+      "count": 1
+    },
+    "unlock": {
+      "context": "AlwaysUnlocked"
+    }
+  }
+}

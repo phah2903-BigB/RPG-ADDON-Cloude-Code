@@ -1,0 +1,31 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:item": {
+    "description": {
+      "identifier": "cdw:rune_feuerball",
+      "menu_category": {
+        "category": "equipment"
+      }
+    },
+    "components": {
+      "minecraft:icon": {
+        "textures": {
+          "default": "cdw_rune_feuerball"
+        }
+      },
+      "minecraft:display_name": {
+        "value": "item.cdw.rune_feuerball"
+      },
+      "minecraft:max_stack_size": 1,
+      "minecraft:rarity": "rare",
+      "cdw:rune": {
+        "ability": "feuerball"
+      },
+      "minecraft:cooldown": {
+        "category": "cdw_feuerball",
+        "duration": 3
+      },
+      "minecraft:hand_equipped": false
+    }
+  }
+}

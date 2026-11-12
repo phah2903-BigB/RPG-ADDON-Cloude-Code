@@ -1,0 +1,35 @@
+{
+  "resource_pack_name": "cdw",
+  "texture_name": "atlas.terrain",
+  "padding": 8,
+  "num_mip_levels": 4,
+  "texture_data": {
+    "cdw_wegstein": {
+      "textures": "textures/cdw/blocks/wegstein"
+    },
+    "cdw_kopfgeldbrett": {
+      "textures": "textures/cdw/blocks/kopfgeldbrett"
+    },
+    "cdw_altar": {
+      "textures": "textures/cdw/blocks/altar"
+    },
+    "cdw_runenstein": {
+      "textures": "textures/cdw/blocks/runenstein"
+    },
+    "cdw_runenstein_lit": {
+      "textures": "textures/cdw/blocks/runenstein_lit"
+    },
+    "cdw_wurzelherz": {
+      "textures": "textures/cdw/blocks/wurzelherz"
+    },
+    "cdw_wurzelherz_rein": {
+      "textures": "textures/cdw/blocks/wurzelherz_rein"
+    },
+    "cdw_barriere": {
+      "textures": "textures/cdw/blocks/barriere"
+    },
+    "cdw_faeulnis": {
+      "textures": "textures/cdw/blocks/faeulnis"
+    }
+  }
+}

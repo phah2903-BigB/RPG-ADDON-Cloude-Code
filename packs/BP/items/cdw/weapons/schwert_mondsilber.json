@@ -1,0 +1,45 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:item": {
+    "description": {
+      "identifier": "cdw:schwert_mondsilber",
+      "menu_category": {
+        "category": "equipment",
+        "group": "minecraft:itemGroup.name.sword"
+      }
+    },
+    "components": {
+      "minecraft:icon": {
+        "textures": {
+          "default": "cdw_schwert_mondsilber"
+        }
+      },
+      "minecraft:display_name": {
+        "value": "item.cdw.schwert_mondsilber"
+      },
+      "minecraft:max_stack_size": 1,
+      "minecraft:hand_equipped": true,
+      "minecraft:durability": {
+        "max_durability": 1600
+      },
+      "minecraft:damage": {
+        "value": 10
+      },
+      "minecraft:enchantable": {
+        "slot": "sword",
+        "value": 16
+      },
+      "minecraft:tags": {
+        "tags": [
+          "cdw:weapon",
+          "cdw:schwert"
+        ]
+      },
+      "cdw:weapon": {},
+      "minecraft:cooldown": {
+        "category": "cdw_w_schwert",
+        "duration": 5
+      }
+    }
+  }
+}

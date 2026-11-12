@@ -1,0 +1,28 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "cdw:goblin_arrow",
+      "materials": {
+        "default": "entity_emissive_alpha"
+      },
+      "textures": {
+        "default": "textures/cdw/entity/goblin_arrow"
+      },
+      "geometry": {
+        "default": "geometry.cdw.arrow"
+      },
+      "animations": {
+        "idle": "animation.cdw.arrow.idle"
+      },
+      "scripts": {
+        "animate": [
+          "idle"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.cdw.simple"
+      ]
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "cdw:boss_moorschlund",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/cdw/entity/toad_boss"
+      },
+      "geometry": {
+        "default": "geometry.cdw.toad"
+      },
+      "animations": {
+        "idle": "animation.cdw.toad.idle",
+        "walk": "animation.cdw.toad.walk",
+        "attack": "animation.cdw.toad.attack"
+      },
+      "scripts": {
+        "animate": [
+          "idle",
+          {
+            "walk": "q.modified_move_speed > 0.02"
+          },
+          {
+            "attack": "v.attack_time > 0.0"
+          }
+        ]
+      },
+      "render_controllers": [
+        "controller.render.cdw.simple"
+      ],
+      "spawn_egg": {
+        "base_color": "#300818",
+        "overlay_color": "#ffcc33"
+      }
+    }
+  }
+}

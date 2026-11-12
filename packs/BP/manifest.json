@@ -1,0 +1,64 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "Chroniken des Weltenbaums §7(Verhalten)",
+    "description": "RPG-Abenteuer: Klassen, Quests, Dungeons, Bosse. §aPS5 · Android · Realm",
+    "uuid": "67cda708-80f6-49be-b201-0d36d6927594",
+    "version": [
+      1,
+      0,
+      0
+    ],
+    "min_engine_version": [
+      1,
+      26,
+      30
+    ]
+  },
+  "modules": [
+    {
+      "type": "data",
+      "uuid": "7cec0650-558d-4a2a-85b7-06a51184f1a5",
+      "version": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "type": "script",
+      "language": "javascript",
+      "uuid": "ae71bd1a-6dac-4a22-b5d1-11f6a0c6a1fa",
+      "version": [
+        1,
+        0,
+        0
+      ],
+      "entry": "scripts/main.js"
+    }
+  ],
+  "dependencies": [
+    {
+      "uuid": "9fee1e39-d737-49b3-868f-c53eb7f2ef7c",
+      "version": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "module_name": "@minecraft/server",
+      "version": "2.8.0"
+    },
+    {
+      "module_name": "@minecraft/server-ui",
+      "version": "2.1.0"
+    }
+  ],
+  "metadata": {
+    "authors": [
+      "Chroniken des Weltenbaums"
+    ],
+    "product_type": "addon"
+  }
+}

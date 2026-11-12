@@ -1,0 +1,41 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "cdw:faeulnisgeist",
+      "materials": {
+        "default": "entity_emissive_alpha"
+      },
+      "textures": {
+        "default": "textures/cdw/entity/blightwraith"
+      },
+      "geometry": {
+        "default": "geometry.cdw.wraith"
+      },
+      "animations": {
+        "idle": "animation.cdw.wraith.idle",
+        "walk": "animation.cdw.wraith.walk",
+        "attack": "animation.cdw.wraith.attack"
+      },
+      "scripts": {
+        "animate": [
+          "idle",
+          {
+            "walk": "q.modified_move_speed > 0.02"
+          },
+          {
+            "attack": "v.attack_time > 0.0"
+          }
+        ],
+        "scale": "q.property('cdw:elite') ? 1.2 : 1.0"
+      },
+      "render_controllers": [
+        "controller.render.cdw.mob"
+      ],
+      "spawn_egg": {
+        "base_color": "#2a1f33",
+        "overlay_color": "#b04cff"
+      }
+    }
+  }
+}

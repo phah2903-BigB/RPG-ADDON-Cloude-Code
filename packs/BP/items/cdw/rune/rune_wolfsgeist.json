@@ -1,0 +1,31 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:item": {
+    "description": {
+      "identifier": "cdw:rune_wolfsgeist",
+      "menu_category": {
+        "category": "equipment"
+      }
+    },
+    "components": {
+      "minecraft:icon": {
+        "textures": {
+          "default": "cdw_rune_wolfsgeist"
+        }
+      },
+      "minecraft:display_name": {
+        "value": "item.cdw.rune_wolfsgeist"
+      },
+      "minecraft:max_stack_size": 1,
+      "minecraft:rarity": "rare",
+      "cdw:rune": {
+        "ability": "wolfsgeist"
+      },
+      "minecraft:cooldown": {
+        "category": "cdw_wolfsgeist",
+        "duration": 45
+      },
+      "minecraft:hand_equipped": false
+    }
+  }
+}
